@@ -1,7 +1,7 @@
 # CA-Student-Info-System
 Screenshots of the student information system, for obvious reasons couldn't put up the actual codebase, but have included some pictures showing examples of my work and listing the functionality developed.
 
-Used MSSQL Server 2015 (database), pojo Java/Hibernate (model), Spring Framework (data access/services/web controllers/security/etc), Aspects (logging), jsps/jquery/jstl/bootstrap (frontend)
+Used MSSQL Server 2015 (database), pojo Java/Hibernate (model), Spring Framework (data access/services/web controllers/security/etc), Aspects (audit-logging), jsps/jquery/jstl/bootstrap (frontend)
 
 ## Screenshots
 
