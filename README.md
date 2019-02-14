@@ -32,7 +32,7 @@ Used MSSQL Server 2015 (database), pojo Java/Hibernate (model), Spring Framework
 ![homepage](https://github.com/jaysait/CA-Student-Info-System/blob/master/yearend-recognition-awards-custom.png)
 
 ### Yearend Recognition Awards - Student Awards
-![homepage](https://github.com/jaysait/CA-Student-Info-System/blob/master/yearend-recognition-awards-student.png)
+![homepage](https://github.com/jaysait/CA-Student-Info-System/blob/master/yearend-recognition-awards-per-student.png)
 
 ### Yearend Recognition Awards - Export
 ![homepage](https://github.com/jaysait/CA-Student-Info-System/blob/master/yearend-recognition-awards-export.png)
