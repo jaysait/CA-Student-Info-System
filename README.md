@@ -55,6 +55,23 @@ Used MSSQL Server 2015 (database), pojo Java/Hibernate (model), Spring Framework
 ### Attendance
 ![Attendance](https://github.com/jaysait/CA-Student-Info-System/blob/master/attendance.png)
 
+### Export Data
+![Export Data](https://github.com/jaysait/CA-Student-Info-System/blob/master/export-data.png)
+- could autosuggest and export (spreadsheet) much of the data in the system to be used externally
+
+### Mail Merge
+![mail-merge-1](https://github.com/jaysait/CA-Student-Info-System/blob/master/mail-merge-1.png)
+- users could create a .docx document and mark it with special delimited fields ${} and upload it into the system and it would find them and allow them to match them with data in the system ie. student name, gender, etc
+-  basically a mail merge functionality built in using system data and without having to know how to mail merge in MS
+
+![mail-merge-2](https://github.com/jaysait/CA-Student-Info-System/blob/master/mail-merge-2.png)
+
+![mail-merge-3](https://github.com/jaysait/CA-Student-Info-System/blob/master/mail-merge-3.png)
+- then they could apply that for any grade
+
+![mail-merge-4](https://github.com/jaysait/CA-Student-Info-System/blob/master/mail-merge-4.png)
+- and the system would generate individual documents for each of the kids with the appropriate data filled in
+
 ### Labels
 ![Labels](https://github.com/jaysait/CA-Student-Info-System/blob/master/address-labels.png)
 - allowed flexible labels for various tasks ie address
