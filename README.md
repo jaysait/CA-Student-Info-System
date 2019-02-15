@@ -7,7 +7,7 @@ Used MSSQL Server 2015 (database), pojo Java/Hibernate (model), Spring Framework
 
 ### Homepage
 ![homepage](https://github.com/jaysait/CA-Student-Info-System/blob/master/homepage.png)
-- customizable calendar
+- customizable calendar feed
 - classes with ability for attendance, grades, rubrics, etc
 - notifications about issues in the system ie. duplicate enrollments in subjects
 - many reports
