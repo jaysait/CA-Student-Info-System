@@ -52,8 +52,16 @@ Used MSSQL Server 2015 (database), pojo Java/Hibernate (model), Spring Framework
 ![Individual Program Plan - Edit Goals](https://github.com/jaysait/CA-Student-Info-System/blob/master/subscriptions.png)
 - allowed teachers/directors to set criteria to receive automatic weekly reports (ie grades below a certain %)
 
+### Create Class
+![Create Class](https://github.com/jaysait/CA-Student-Info-System/blob/master/create-class.png)
+
 ### Attendance
 ![Attendance](https://github.com/jaysait/CA-Student-Info-System/blob/master/attendance.png)
+
+### Gradebook
+![Gradebook](https://github.com/jaysait/CA-Student-Info-System/blob/master/gradebook.png)
+- autosave
+- right click meta data
 
 ### Export Data
 ![Export Data](https://github.com/jaysait/CA-Student-Info-System/blob/master/export-data.png)
