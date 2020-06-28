@@ -4,7 +4,7 @@ Screenshots of the student information system, for obvious reasons couldn't put 
 Used MSSQL Server 2015 (database), pojo Java/Hibernate (model), Spring Framework (data access/services/web controllers/security/etc), Aspects (audit-logging), jsps/jquery/jstl/bootstrap (frontend)
 
 #### Side note - Just to give a little insight into my personality, here is the message they wrote on their weekly newsletter about my departure.
-![Permissions](https://github.com/jaysait/CA-Student-Info-System/blob/master/_CAConnectionShowingDepartingMessage.pdf)
+![Click here to open pdf](https://github.com/jaysait/CA-Student-Info-System/blob/master/_CAConnectionShowingDepartingMessage.pdf)
 
 
 ## Screenshots
