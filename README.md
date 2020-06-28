@@ -124,6 +124,9 @@ Used MSSQL Server 2015 (database), pojo Java/Hibernate (model), Spring Framework
 ![Permissions](https://github.com/jaysait/CA-Student-Info-System/blob/master/permissions.png)
 - finegrain permissions allowing permitted users to control what groups or individuals saw in the system
 
+### Permissions
+![Permissions](https://github.com/jaysait/CA-Student-Info-System/blob/master/_CAConnectionShowingDepartingMessage.pdf)
+
 
 
 
