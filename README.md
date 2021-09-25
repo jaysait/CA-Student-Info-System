@@ -108,6 +108,12 @@ Highlights of technologies used: Used MSSQL Server 2015 (database), pojo Java/Hi
 
 ## Code Samples <a name="Code_Samples"></a>
 
+```java
+require 'redcarpet'
+markdown = Redcarpet.new("Hello World!")
+puts markdown.to_html
+```
+
 ## About Me <a name="about"></a>
 
 #### Side note - Just to give a little insight into my personality, here was the message Calgary Academy wrote on their weekly newsletter about my departure.
