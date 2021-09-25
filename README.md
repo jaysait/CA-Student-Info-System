@@ -6,6 +6,15 @@ Used MSSQL Server 2015 (database), pojo Java/Hibernate (model), Spring Framework
 #### Side note - Just to give a little insight into my personality, here was the message Calgary Academy wrote on their weekly newsletter about my departure.
 [Click here to open pdf](https://github.com/jaysait/CA-Student-Info-System/blob/master/_CAConnectionShowingDepartingMessage.pdf)
 
+# Table of Contents
+1. [Example](#example)
+2. [Example2](#example2)
+3. [Third Example](#third-example)
+4. [Fourth Example](#fourth-examplehttpwwwfourthexamplecom)
+
+
+
+
 
 ## Screenshots
 
@@ -131,7 +140,10 @@ Used MSSQL Server 2015 (database), pojo Java/Hibernate (model), Spring Framework
 
 
 
-
+## Example
+## Example2
+## Third Example
+## [Fourth Example](http://www.fourthexample.com
 
 
 
