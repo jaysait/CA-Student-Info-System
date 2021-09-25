@@ -82,7 +82,7 @@ Used MSSQL Server 2015 (database), pojo Java/Hibernate (model), Spring Framework
 ![Individual Program Plan - Goals](https://github.com/jaysait/CA-Student-Info-System/blob/master/Individual-program-plan-goals.png)
 
 ### Individual Program Plan - Edit Goals
-! [Individual Program Plan - Edit Goals](https://github.com/jaysait/CA-Student-Info-System/blob/master/Individual-program-plan-edit-goals.png)
+![Individual Program Plan - Edit Goals](https://github.com/jaysait/CA-Student-Info-System/blob/master/Individual-program-plan-edit-goals.png)
 
 ### Subscriptions to Reports
 ![Individual Program Plan - Edit Goals](https://github.com/jaysait/CA-Student-Info-System/blob/master/subscriptions.png)
