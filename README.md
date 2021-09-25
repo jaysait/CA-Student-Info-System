@@ -8,7 +8,7 @@ Used MSSQL Server 2015 (database), pojo Java/Hibernate (model), Spring Framework
 
 # Table of Contents
 1. [Screenshots](#Screenshots)
-2. [Code Samples](#code-samples)
+2. [Code Samples](#Code Samples)
 3. [A little about me](#about)
 
 
@@ -140,9 +140,9 @@ Used MSSQL Server 2015 (database), pojo Java/Hibernate (model), Spring Framework
 
 
 
-## code-samples
-## about
-## Third Example
+## Code Samples
+## About Me
+
 
 
 
