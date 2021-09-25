@@ -140,8 +140,8 @@ Used MSSQL Server 2015 (database), pojo Java/Hibernate (model), Spring Framework
 
 
 
-## Code Samples
-## About Me
+## Code Samples <a name="Code_Samples"></a>
+## About Me <a name="about"></a>
 
 
 
