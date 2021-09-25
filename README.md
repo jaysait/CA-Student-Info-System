@@ -1,5 +1,5 @@
 # CA-Student-Info-System
-Screenshots of the student information system, for obvious reasons couldn't put up the actual codebase, but have included some pictures showing examples of my work and listing the functionality developed.
+Screenshots of the student information system, for obvious reasons couldn't put up the actual codebase (but have included code samples of my work style at the time, good or bad), but have included some screenshots showing examples of my work and listing the functionality developed.
 
 Used MSSQL Server 2015 (database), pojo Java/Hibernate (model), Spring Framework (data access/services/web controllers/security/etc), Aspects (audit-logging), jsps/jquery/jstl/bootstrap (frontend)
 
@@ -7,10 +7,10 @@ Used MSSQL Server 2015 (database), pojo Java/Hibernate (model), Spring Framework
 [Click here to open pdf](https://github.com/jaysait/CA-Student-Info-System/blob/master/_CAConnectionShowingDepartingMessage.pdf)
 
 # Table of Contents
-1. [Example](#example)
-2. [Example2](#example2)
-3. [Third Example](#third-example)
-4. [Fourth Example](#fourth-examplehttpwwwfourthexamplecom)
+1. [Screenshots](#Screenshots)
+2. [Code Samples](#code-samples)
+3. [A little about me](#about)
+
 
 
 
@@ -140,10 +140,10 @@ Used MSSQL Server 2015 (database), pojo Java/Hibernate (model), Spring Framework
 
 
 
-## Example
-## Example2
+## code-samples
+## about
 ## Third Example
-## [Fourth Example](http://www.fourthexample.com
+
 
 
 
