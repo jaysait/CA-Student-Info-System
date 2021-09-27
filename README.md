@@ -15,7 +15,7 @@ Highlights of technologies used: Used MSSQL Server 2015 (database), pojo Java/Hi
 ### Homepage
 ![homepage](https://github.com/jaysait/CA-Student-Info-System/blob/master/homepage.png)
 - customizable calendar feed
-- classes with ability for attendance, grades, rubrics, etc
+- classes for attendance, grades, rubrics, etc
 - notifications about issues in the system ie. duplicate enrollments in subjects
 - many reports
 
