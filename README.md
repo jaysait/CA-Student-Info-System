@@ -56,6 +56,11 @@ Highlights of technologies used: Used MSSQL Server 2015 (database), pojo Java/Hi
 ### Individual Program Plan - Edit Goals
 ![Individual Program Plan - Edit Goals](https://github.com/jaysait/CA-Student-Info-System/blob/master/Individual-program-plan-edit-goals.png)
 
+### PT Interview Scheduler
+![PT Interview Scheduler](https://github.com/jaysait/CA-Student-Info-System/blob/master/ptinterview.png)
+-Teachers can dynamically create PT Interviews for any of their classes, allowing to set up a template email, pick available times, select who gets invited and share with other teachers and view/get notified of any selections
+
+
 ### Subscriptions to Reports
 ![Individual Program Plan - Edit Goals](https://github.com/jaysait/CA-Student-Info-System/blob/master/subscriptions.png)
 - allowed teachers/directors to set criteria to receive automatic weekly reports (ie grades below a certain %)
