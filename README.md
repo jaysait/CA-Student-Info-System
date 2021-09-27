@@ -110,11 +110,29 @@ Highlights of technologies used: Used MSSQL Server 2015 (database), pojo Java/Hi
 
 ## Code Samples <a name="Code_Samples"></a>
 
-```java
-require 'redcarpet'
-markdown = Redcarpet.new("Hello World!")
-puts markdown.to_html
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns:p="http://www.springframework.org/schema/p"
+ xmlns:task="http://www.springframework.org/schema/task"
+ xsi:schemaLocation="http://www.springframework.org/schema/beans 
+ http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+ http://www.springframework.org/schema/task
+ http://www.springframework.org/schema/task/spring-task-3.0.xsd">
+ 
+ <bean id="weeklyGradeEmailJob"
+      class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+    <property name="targetObject" ref="reportService"/>
+    <property name="targetMethod" value="sendWeeklyGradesEmail" />
+</bean>
+<bean id="cronEmailTrigger"
+      class="org.springframework.scheduling.quartz.CronTriggerBean">
+    <property name="jobDetail" ref="weeklyGradeEmailJob"/>
+    <property name="cronExpression" value="0 59 23 ? * SUN" />
+  </bean>
 ```
+-Used Quartz Scheduling for a variety of tasks, like weekly reports, etc
 
 ## About Me <a name="about"></a>
 
