@@ -338,6 +338,357 @@ public class IPPController {
 ```
 -Controller example
 
+
+#### frontend interfaces
+```
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+    <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib uri="/WEB-INF/tlds/lists.tld" prefix="lst" %>
+<c:url var="base" value="/" />
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Recognition Awards</title>
+<link type="text/css" rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/themes/${existingTheme}/jquery-ui.css" />
+ <link rel="stylesheet" href="${base }css/demos.css" type="text/css" />
+   
+   
+   <link rel="stylesheet" href="${base }js/chosen/chosen.relative.css" />
+   <style type="text/css" title="currentStyle">
+		@import "${base }css/demo_page.css";
+			@import "${base }css/demo_table_jui.css";
+			@import "${base }TableTools-2.0.1/media/css/TableTools_JUI.css";
+		</style>
+		<link rel="stylesheet" href="${base }css/process.css" type="text/css" />
+
+
+</head> 
+<body>
+   <div id="light" class="white_content">Loading...<img src="${base }images/ajax-loader.gif" alt="loading" class="loading"><h2>${saying }</h2></div>
+    <div id="fade" class="black_overlay"></div> 
+
+<table class="header">
+				<tr>
+					<td class="offheader">
+<c:choose>
+		<c:when test="${fn:startsWith(sessionScope.user.type,'d')==true}">
+			<a class="head bootton"	href="${base }indexdirector.jsp?scid=${scid }">home</a>
+					
+		</c:when>
+		<c:otherwise>
+			<c:choose>
+				<c:when test="${fn:startsWith(sessionScope.user.type,'a')==true}">
+					<a class="head bootton"	href="${base }indexassist.jsp?scid=${scid}">home</a>
+							
+				</c:when>
+				<c:otherwise>
+					<a class="head bootton"	href="${base }index.jsp?scid=${scid }">home</a>
+							
+				</c:otherwise>
+			</c:choose>
+		</c:otherwise>
+	</c:choose>
+	</td>
+				</tr>
+			</table>
+	
+<div id="processing" class="ui-state-error ui-corner-all">
+		</div>
+
+
+<div class="ui-state-active ui-corner-all" style="margin-left: auto;margin-right: auto; width: 50%;">
+
+
+
+<c:choose>
+	<c:when test="${not empty hrcourses }">
+	<c:forEach items="${hrcourses }" var="course">
+<c:choose>
+	<c:when test="${course.id == courseId }">
+	${course.formalName} (${course.teacherId })
+	</c:when>
+	<c:otherwise>
+	<a class="bootton" href="${base }psi/recognition/award/${course.id}/-1/${scid}">${course.formalName} (${course.teacherId })</a>
+	</c:otherwise>
+
+</c:choose>
+
+</c:forEach>
+	</c:when>
+	<c:otherwise>
+	
+	Grades 
+	
+ <c:forEach items="${grades }" var="grade">
+                      <c:choose>
+				<c:when test="${gradePicked == grade.key}">
+				 <b>	 ${grade.value }</b>
+				</c:when>
+				<c:otherwise>
+				<a class="bootton" href="${base }psi/recognition/award/-1/${grade.key}/${scid}">${grade.value } </a>
+				</c:otherwise>
+			</c:choose>
+                      </c:forEach>
+  
+<br/>
+<c:forEach items="${courses }" var="course">
+<c:choose>
+	<c:when test="${course.id == courseId }">
+	${course.formalName} (${course.teacherId })
+	</c:when>
+	<c:otherwise>
+	<a class="bootton" href="${base }psi/recognition/award/${course.id}/${gradePicked}/${scid}">${course.formalName} (${course.teacherId })</a>
+	</c:otherwise>
+
+</c:choose>
+
+</c:forEach>
+	
+	
+	</c:otherwise>
+</c:choose>
+
+
+</div>
+<br/>
+
+  <c:if test="${not empty students }">
+ <select id="gt_reach">
+ <option value="1">greater than</option>
+ <option value="2">less than</option>
+ </select>
+  REACH<input id="reach_limit"  />
+<!--    Homework<input id="homework_limit"  />--> 
+  <input type="hidden" name="scid" id="scid" value="${scid }" />
+<input type="hidden" name="cid" value="${courseId }" />
+<input type="hidden" name="y" value="${endyear }" />
+  
+   <fmt:formatDate pattern="MM/dd/yyyy" value="${now }" />
+  
+  <table id="filled"  class="display">
+ <thead>
+<tr>
+<th>Name of Student</th><th>President's List</th><th>REACH Award</th><th>Personal Best</th>
+<th>Attendance <br/>Months Perfect</th><th>Attendance <br/>Days Absent for the year</th><th>Homework 100%</th><th>Homework</th>
+
+<c:forEach items="${options }" var="option">
+<th>${option.subjectName }</th>
+</c:forEach>
+
+
+
+<c:forEach items="${subjects }" var="subject">
+<th>AI - ${subject.subjectName }</th>
+</c:forEach>
+<c:forEach items="${subjects }" var="subject">
+<th>AE - ${subject.subjectName }</th>
+</c:forEach>
+</tr>
+
+</thead>
+
+<c:forEach items="${students }" var="student">
+<tr>
+<td >${student.givenName } ${student.surName }</td>
+<td><span id="president_${student.id }">${winners[student.id]['president'] }</span>
+<c:if test="${empty hrcourses }">
+	 <input class="bootton pres" type="button" id="yes_${student.id }" value="Yup" />
+	 <input class="bootton pres" type="button" id="no_${student.id }" value="Nope" />
+	 </c:if>
+	 <br/>
+	  
+	</td>
+<td>${reaches[student].amount }</td>
+	<td>
+	  
+	 
+	</td>
+	
+	<td>${attendances[student].amount }</td>
+	<td>${attendanceDays[student.id] }</td>
+	
+	
+	<td>${homeworks[student].amount }</td>
+	<td>
+	 
+	</td>
+
+
+<c:forEach items="${options }" var="option">
+<td>${optionGrades[student][option.subjectId].finalgrade }</td>
+</c:forEach>
+
+	
+	
+	<c:forEach items="${subjects }" var="subject">
+<td>${improvements[student.id][subject.subjectId]}</td>
+</c:forEach>
+		<c:forEach items="${subjects }" var="subject">
+<td>${excellents[student.id][subject.subjectId]}</td>
+</c:forEach>
+	 
+	</tr>
+</c:forEach>
+
+</table>
+
+</c:if>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
+
+<script type="text/javascript" src="${base }js/confirm.js"></script>
+
+<script type="text/javascript" charset="utf-8" src="${base }scripts/jquery.dataTables.js"></script>
+		<script type="text/javascript" charset="utf-8" src="${base }TableTools-2.0.1/media/js/ZeroClipboard.js"></script>
+		<script type="text/javascript" charset="utf-8" src="${base }TableTools-2.0.1/media/js/TableTools.js"></script>
+<script>
+
+$.fn.dataTableExt.afnFiltering.push(
+		function( oSettings, aData, iDataIndex ) {
+			var iMin = document.getElementById('reach_limit').value ;
+			//var iMinH = document.getElementById('homework_limit').value ;
+			var gt = document.getElementById('gt_reach').value ;
+			var iVersion = aData[2] == "" ? 0 : aData[2]*1;
+			//var hwk = aData[6] == "" ? 0 : aData[6]*1;
+			//var stu = aData[0];
+			console.log(gt);
+			console.log(iVersion+' - '+iMin);
+			if( gt == 1){
+				if ( iMin == "" )
+				{
+					return true;
+				}
+				else if (  iVersion >= iMin )
+				{
+					return true;
+				}
+				return false;
+			}else{
+				if ( iMin == "" )
+				{
+					return true;
+				}
+				else if (  iVersion < iMin )
+				{
+					return true;
+				}
+				return false;
+			}
+		
+		}
+	);
+
+$.fn.dataTableExt.oApi.fnHideEmptyColumns = function ( oSettings, tableObject )
+{
+    var selector = tableObject.selector;
+    var columnsToHide = [];
+ 
+    $(selector).find('th').each(function(i) {
+ 
+        var columnIndex = $(this).index();
+        var rows = $(this).parents('table').find('tr td:nth-child(' + (i + 1) + ')'); //Find all rows of each column 
+        var rowsLength = $(rows).length;
+        var emptyRows = 0;
+ 
+        rows.each(function(r) {
+            if (this.innerHTML.trim() == '')
+                emptyRows++;
+        }); 
+ 
+        if(emptyRows == rowsLength) {
+            columnsToHide.push(columnIndex);  //If all rows in the colmun are empty, add index to array
+        } 
+    });
+    for(var i=0; i< columnsToHide.length; i++) {
+        tableObject.fnSetColumnVis( columnsToHide[i], false ); //Hide columns by index
+    }
+ 
+    tableObject.fnAdjustColumnSizing();
+}
+
+
+$(function() {
+	var $loading = $('<img src="${base }images/ajax-loader.gif" alt="loading" class="loading">');
+			 
+		$( ".bootton" ).button();
+		
+		setTimeout(function(){$('#light').hide();
+		$('#fade').hide();},3000);
+		
+		var asInitVals = new Array();
+		var oTable = $('#filled').dataTable( {
+			"bJQueryUI": true,
+			"bPaginate": false,
+			"sDom": '<"H"Tfrlp>t<"F"ip>',
+			"oTableTools": {
+				"aButtons": [
+{
+	"sExtends": "csv",
+    "sButtonText": "Download",
+    "mColumns": "visible",
+    "sFieldBoundary": ''  
+    }
+				],
+				"sSwfPath": "${base}TableTools-2.0.1/media/swf/copy_cvs_xls_pdf.swf"
+			},
+			"oLanguage": {
+				"sSearch": "Search all columns:"
+			},
+			"aaSorting": [],
+			"fnInitComplete": function () {
+			    this.fnHideEmptyColumns(this);
+			},
+			 "sScrollX": "100%"
+			
+		} );
+		$("div.toolbar").html('');  
+		
+		$('#reach_limit').keyup( function() { oTable.fnDraw(); } );
+		$('#homework_limit').keyup( function() { oTable.fnDraw(); } );
+		$( "#gt_reach" ).change(function() {
+			oTable.fnDraw();
+			});
+		
+     //$("#filled").addClass('stripe');
+     
+     $(".pres").click(function() {
+    	 var idd = $(this).attr('id');
+    	 var answ = idd.substring(0, idd.indexOf('_'));
+		 idd = idd.substring(idd.indexOf('_'),idd.length);
+		  $.post("${base}psi/recognition/savePresident", 
+        		  {pick: $(this).attr('id'),
+        			  scid: $('#scid').val()
+					}, 
+        		  function(data){
+        				  
+        				  if(data != ''){
+        				  var tar = $('#processing');
+        				  tar.html(data);
+        				  tar.fadeIn(2000).animate({duration: 'slow', queue: false}, function() {
+        				    });
+        				  tar.fadeOut(2000);
+        				  $('#president'+idd).html(answ);
+        				   
+        			  }
+        		  });
+    	 
+     });
+	});
+	
+	
+	</script>
+
+</body>
+</html>
+```
+
+
+
 ```java
 public aspect AttendanceAspect {
 
@@ -399,6 +750,20 @@ public aspect AttendanceAspect {
 	</bean>
  ``` 
  -Started off using xml files for Spring configuration, was in the process of updating to just using Java classes and defining beans using annotations
+ 
+  ```java
+ 
+click.expand=Click to Expand
+click.collapse=Click to Collapse
+find.student=Look up Student
+find.student.desc=Find out what other courses your students are enrolled, their marks, attendances, last years report card and if you need any other info reported let the appropriate people know.
+image.question=images/question.gif
+granted.access=Granted Access:
+
+```
+-used xxx_en.properties files for many front end, there was talk with one school about translating to spanish as well
+ 
+ 
 
 ## About Me <a name="about"></a>
 
