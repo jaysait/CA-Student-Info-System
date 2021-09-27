@@ -110,6 +110,27 @@ Highlights of technologies used: Used MSSQL Server 2015 (database), pojo Java/Hi
 
 ## Code Samples <a name="Code_Samples"></a>
 
+```java
+public aspect AttendanceAspect {
+
+	private HttpServletRequest request;
+	
+	pointcut  logSaveAttendance2() :  execution(* servlets.Attendance*Servlet.doPost*(..));
+	
+	before() : logSaveAttendance2() {
+		Object[] vs = thisJoinPoint.getArgs();
+		request = (HttpServletRequest) vs[0];
+	}
+	
+	pointcut  logSaveAttendance() :  execution(* dao.AttendanceDao.saveAttendance*(..));
+	
+	before() : logSaveAttendance() {
+		UpdatesDao updatesDao = AppCon.getUpdatesDao();
+		StudentDao studentDao = AppCon.getStudentDao();
+...
+```
+-Used aspect oriented code for certain cross cutting concerns like auditing/logging certain important data.
+
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
@@ -148,7 +169,7 @@ Highlights of technologies used: Used MSSQL Server 2015 (database), pojo Java/Hi
     <bean id="examDao" class="dao.exam.ExamJdbcDaoImpl">
 		<property name="dataSource" ref="dataSource" />
 	</bean>
- ```
+ ``` 
  -Started off using xml files for Spring configuration, was in the process of updating to just using Java classes and defining beans using annotations
 
 ## About Me <a name="about"></a>
