@@ -134,6 +134,23 @@ Highlights of technologies used: Used MSSQL Server 2015 (database), pojo Java/Hi
 ```
 -Used Quartz Scheduling for a variety of tasks, like weekly reports, etc
 
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+    
+    <bean id="reachDaoHibernate" class="dao.hibernate.ReachDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+    
+    <bean id="examDao" class="dao.exam.ExamJdbcDaoImpl">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+ ```
+ -Started off using xml files for Spring configuration, was in the process of updating to just using Java classes and defining beans using annotations
+
 ## About Me <a name="about"></a>
 
 #### Side note - Just to give a little insight into my personality, here was the message Calgary Academy wrote on their weekly newsletter about my departure.
