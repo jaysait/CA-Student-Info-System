@@ -1,7 +1,7 @@
 # CA-Student-Info-System
 Developed a student information system for the unique procedures of a school primarily focused on a different approach to teaching, for obvious reasons couldn't put up the actual codebase, but have included selective code samples of my style at the time...good or bad, probably mostly bad :), and some screenshots showing examples of my work and listing the functionality developed.
 
-Highlights of technologies used: Used MSSQL Server 2015 (database), pojo Java/Hibernate (model), Spring Framework (data access/services/web controllers/security/etc), Aspects (audit-logging), jsp/jquery/jstl/bootstrap (frontend)...following the MVC pattern.
+Highlights of technologies used: Used MSSQL Server 2015 (database), pojo Java/Hibernate (model), Spring Framework (data access/services/web controllers/security/etc), Aspects (audit-logging), jsp/jquery/jstl/bootstrap (frontend), developed using Eclipse/STS, utilizing Maven, Git repository...following the MVC pattern.
 
 
 1. [Screenshots](#Screenshots)
