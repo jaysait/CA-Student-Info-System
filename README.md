@@ -463,7 +463,7 @@ public class IPPController {
  <option value="2">less than</option>
  </select>
   REACH<input id="reach_limit"  />
-<!--    Homework<input id="homework_limit"  />--> 
+
   <input type="hidden" name="scid" id="scid" value="${scid }" />
 <input type="hidden" name="cid" value="${courseId }" />
 <input type="hidden" name="y" value="${endyear }" />
@@ -551,11 +551,10 @@ public class IPPController {
 $.fn.dataTableExt.afnFiltering.push(
 		function( oSettings, aData, iDataIndex ) {
 			var iMin = document.getElementById('reach_limit').value ;
-			//var iMinH = document.getElementById('homework_limit').value ;
+			
 			var gt = document.getElementById('gt_reach').value ;
 			var iVersion = aData[2] == "" ? 0 : aData[2]*1;
-			//var hwk = aData[6] == "" ? 0 : aData[6]*1;
-			//var stu = aData[0];
+			
 			console.log(gt);
 			console.log(iVersion+' - '+iMin);
 			if( gt == 1){
@@ -583,33 +582,7 @@ $.fn.dataTableExt.afnFiltering.push(
 		}
 	);
 
-$.fn.dataTableExt.oApi.fnHideEmptyColumns = function ( oSettings, tableObject )
-{
-    var selector = tableObject.selector;
-    var columnsToHide = [];
- 
-    $(selector).find('th').each(function(i) {
- 
-        var columnIndex = $(this).index();
-        var rows = $(this).parents('table').find('tr td:nth-child(' + (i + 1) + ')'); //Find all rows of each column 
-        var rowsLength = $(rows).length;
-        var emptyRows = 0;
- 
-        rows.each(function(r) {
-            if (this.innerHTML.trim() == '')
-                emptyRows++;
-        }); 
- 
-        if(emptyRows == rowsLength) {
-            columnsToHide.push(columnIndex);  //If all rows in the colmun are empty, add index to array
-        } 
-    });
-    for(var i=0; i< columnsToHide.length; i++) {
-        tableObject.fnSetColumnVis( columnsToHide[i], false ); //Hide columns by index
-    }
- 
-    tableObject.fnAdjustColumnSizing();
-}
+
 
 
 $(function() {
@@ -654,7 +627,7 @@ $(function() {
 			oTable.fnDraw();
 			});
 		
-     //$("#filled").addClass('stripe');
+    
      
      $(".pres").click(function() {
     	 var idd = $(this).attr('id');
@@ -687,6 +660,179 @@ $(function() {
 </html>
 ```
 
+```html
+<%@ page language="java" 
+	import="java.util.*,domain.*,dao.*,dao.jdbc.*,util.AppCon" errorPage="/error.jsp"%>
+<!DOCTYPE html>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<html>
+<head>
+
+<script>
+
+$(function() {
+	
+	jQuery.validator.addMethod("dateComparison",function(value,element) {
+	    var result= true;			
+	    if($("#expiry_phone").val().length > 0 ) 
+	      {
+	        var dateArray= $("#effective_phone").val().split("/");
+	        var startDateObj= new Date(dateArray[0],(dateArray[1]-1),dateArray[2],0,0,0,0);
+	     
+	    var endDateArray= $("#expiry_phone").val().split("/");
+	    var endDateObj= new Date(endDateArray[0],(endDateArray[1]-1),endDateArray[2],0,0,0,0);
+	    var startDateMilliseconds= startDateObj.getTime();
+	    var endDateMilliseconds= endDateObj.getTime();
+					
+	    if (endDateMilliseconds <= startDateMilliseconds) 
+	      {
+	        result= false;
+	      }
+	    
+	      } 
+	     
+	    return result;
+
+	 },"Invalid Expiry Date. The Phone Number Expiry Date provided must be later than Effective Date.");
+	
+	$( ".bootton" ).button();
+	 var validate =	$("#phoneForm").validate({
+	    	rules: {
+	    	number: {
+			required: true,
+	    		minlength: 10,
+			maxlength: 10,
+			digits: true
+			},
+		ext: {
+			digits: true
+			},
+		expiry: {
+			dateComparison: true
+			},
+		effective_phone: {
+			required: true
+					 	  }
+	      },
+	      messages: {
+	    	  number: {
+	    		  required: "Phone Number is Required",
+	              	minlength: "Invalid Phone Number.  The phone number provided must be 10 characters long when starting with a number 2 through 9. ",
+	              	maxlength: "Invalid Phone Number. The phone number provided must be 10 characters long when starting with a number 2 through 9.",
+	              	digits: "Invalid Phone Number.  The phone number provided must only contain numbers (0 through 9) or +."
+	        	},
+	        ext: {
+	              digits: "Invalid Extension. The Extension provided  must only be numbers (0 through 9)."
+	        },
+		 expiry: {
+		       dateComparison: "Invalid Expiry Date. The Phone Number Expiry Date provided must be later than Effective Date."
+		 	    },
+		 effective_phone: {
+		       	required: "Effective Date is Required"
+		  }
+	      },
+	      errorLabelContainer: $("div#error_phone"),
+	      onkeyup: false
+	      
+	    });
+	 $( ".datepicker_phone" ).datepicker({
+			changeMonth: true,
+			changeYear: true,
+			dateFormat: 'yy/mm/dd'
+		});
+});
+
+</script>
+
+</head>
+<body>
+	<c:set var="disableexpire" value="true"></c:set>
+	<c:forEach items="${sessionScope.studentCombined.studentInfo.otherPhoneNumbers }" var="chph">
+		<c:if test="${empty chph.expiryDate.time && chph.refId != rid}">
+			<c:set var="disableexpire" value="false"></c:set>
+		</c:if>
+	</c:forEach>
+	<c:if test="${empty sessionScope.studentCombined.studentInfo.preferredPhoneNumber.expiryDate.time && sessionScope.studentCombined.studentInfo.preferredPhoneNumber.refId != rid}">
+		<c:set var="disableexpire" value="false"></c:set>
+	</c:if>
+
+	<div id="topLevel">
+
+		<div class="ui-widget-content ui-corner-top container_no error" id="error_phone" style="display: none;">
+			<h3 class="ui-dialog-titlebar ui-widget-header ui-corner-top">Validation Summary</h3>
+
+		</div>
+		<br />
+
+		<form method="post" id="phoneForm">
+			<input type="hidden" name="scid" value="${scid }" />
+			<c:if test="${not empty phone.id }">
+			<input type="hidden" name="lid" value="${phone.id }" />
+			</c:if>
+			<div class="ui-widget-content ui-corner-top container_no">
+				<c:if test="${not empty rid }">
+					Reference# ${rid }
+					<input type='hidden' name='rid' value="${rid }" />
+
+				</c:if>
+				<input type='hidden' name='sid' value="${sid }" />
+				<div class="form_last_row">
+					<div class="form_field">
+						<label>Phone Number </label> <input type="text" name='number' id="number" value="${phone.number }" />
+						<div class="required">*</div>
+					</div>
+				</div>
+
+				<div class="form_last_row">
+					<div class="form_field">
+						<label>Extension </label> <input type="text" name='ext' id="ext" value="${phone.extension }" />
+					</div>
+				</div>
+
+...
+
+				<div class="form_last_row">
+					<div class="form_field">
+						<label>Expire all active phone records </label>
+
+						<c:choose>
+							<c:when test="${disableexpire }">
+								<select  name="expireactive">
+									<option value="N" selected="selected">No</option>
+								</select>
+							</c:when>
+							<c:otherwise>
+								<select name="expireactive">
+									<c:choose>
+										<c:when test="${not empty rid }">
+											<option value="N" selected="selected">No</option>
+											<option value="Y">Yes</option>
+
+										</c:when>
+										<c:otherwise>
+											<option value="N">No</option>
+											<option value="Y" selected="selected">Yes</option>
+										</c:otherwise>
+									</c:choose>
+								</select>
+							</c:otherwise>
+
+						</c:choose>
+					</div>
+				</div>
+
+			</div>
+		</form>
+	</div>
+
+	<div id="loading"></div>
+
+</body>
+</html>
+
+```
 
 
 ```java
