@@ -1,11 +1,9 @@
 # CA-Student-Info-System
-Screenshots of the student information system, for obvious reasons couldn't put up the actual codebase (have included selective code samples of my style at the time...good or bad, probably mostly bad :), but have included some screenshots showing examples of my work and listing the functionality developed.
+Screenshots of the student information system, for obvious reasons couldn't put up the actual codebase (have included selective code samples of my style at the time...good or bad, probably mostly bad :),  some screenshots showing examples of my work and listing the functionality developed.
 
 Highlights of technologies used: Used MSSQL Server 2015 (database), pojo Java/Hibernate (model), Spring Framework (data access/services/web controllers/security/etc), Aspects (audit-logging), jsps/jquery/jstl/bootstrap (frontend)
 
 
-
-# Table of Contents
 1. [Screenshots](#Screenshots)
 2. [Code Samples](#Code_Samples)
 3. [A little about me](#about)
@@ -119,7 +117,7 @@ puts markdown.to_html
 #### Side note - Just to give a little insight into my personality, here was the message Calgary Academy wrote on their weekly newsletter about my departure.
 [Click here to open pdf](https://github.com/jaysait/CA-Student-Info-System/blob/master/_CAConnectionShowingDepartingMessage.pdf)
 
-#### Side note - because I loaded everything upfront, to pass the initial wait I would include random made up facts about individual program plans (IPP) to help pass the time, also shows a little bit about my personality/sense of humour
+#### Side note - because I loaded everything upfront in certain areas of the program, to pass the initial wait I would include random made up facts about individual program plans (IPP)/related topics to help pass the time, also shows a little bit about my sense of humour or lack there of
 - One out of every 15 IPPs involve making better jerky
 - In a small tribe in the Amazon, it's believed that IPPs are the work of sorcerers
 - Raccoons are the only other documented animal that also practise IPPs...and as you'd expect most of the goals pertain to Algebra or opening cans
