@@ -17,7 +17,7 @@ Highlights of technologies used: Used MSSQL Server 2015 (database), pojo Java/Hi
 - customizable calendar feed
 - classes for attendance, grades, rubrics, etc
 - notifications about issues in the system ie. duplicate enrollments in subjects
-- many reports
+- many reports, either in pdf via iText or spreadsheet via Apache Poi, etc
 
 ### Homepage 2
 ![homepage2](https://github.com/jaysait/CA-Student-Info-System/blob/master/homepage-2.png)
@@ -109,6 +109,234 @@ Highlights of technologies used: Used MSSQL Server 2015 (database), pojo Java/Hi
 
 
 ## Code Samples <a name="Code_Samples"></a>
+
+```java
+@Entity
+@Table(name = "reach_outcome")
+public class ReachOutcome {
+	@Id
+	@GeneratedValue(strategy = IDENTITY)
+	private Integer id;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "reach_heading_id")
+	private ReachHeading heading;
+	@Column(name = "name")
+	private String name;
+	
+	@Column(name = "display_order")
+	private Integer order;
+...
+```
+-Used Hibernate to annotate pojo classes and relationships, validations, etc
+
+```java
+public class IPPJdbcDaoImpl implements IPPDao {
+	private JdbcTemplate jdbcTemplate;
+	public void setDataSource(DataSource dataSource) {
+		this.jdbcTemplate = new JdbcTemplate(dataSource);
+	}
+	
+	public synchronized void saveSubjects(Set<String> subjects, String scid){
+	    
+		for(String subject : subjects){
+			  this.jdbcTemplate.update(
+						"INSERT INTO ipp_subjects ( name, school_id) "+
+			              " VALUES ( ?,?)",
+						new Object[] { subject, scid});
+		}
+	  
+	}
+	
+public synchronized int saveSubject(String subject, String scid){
+	    
+	 KeyHolder keyHolder = new GeneratedKeyHolder();
+	 final String subjectF = subject;
+	 final String scidF = scid;
+	 jdbcTemplate.update(
+	            new PreparedStatementCreator() {
+	                public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
+	                	String sql ="INSERT INTO ipp_subjects ( name, school_id) "+
+	              " VALUES ( ?,?)";
+	                    PreparedStatement ps =
+	                        connection.prepareStatement(sql, new String[] {"id"});
+	                    ps.setString(1, subjectF);
+	                    ps.setString(2, scidF);
+	                    return ps;
+	                }
+	            },
+	            keyHolder);
+	        return keyHolder.getKey().intValue();
+	}	
+	
+public Map<String,List<SchoolHistory>> getSchoolHistories(String scid) {
+	
+	return (Map<String, List<SchoolHistory>>) this.jdbcTemplate.query(
+			"Select * from ipp_school_history where school_id = ? order by student_id, display_order",
+			new Object[] {scid },
+			new ResultSetExtractor() {
+				public Object extractData(ResultSet rs) throws SQLException {
+					Map<String, List<SchoolHistory>> map = new HashMap<String, List<SchoolHistory>>();
+					while (rs.next()) {
+
+						SchoolHistory history = new SchoolHistory();
+						history.setId(rs.getInt("id"));
+						history.setOrder(rs.getInt("display_order"));
+						history.setSchool(rs.getString("school"));
+						history.setStudentId(rs.getInt("student_id"));
+						history.setYear(rs.getString("year"));
+						history.setSchoolId(rs.getString("school_id"));
+						if(map.containsKey(history.getStudentId()+"")){
+							map.get(history.getStudentId()+"").add(history);
+						}else{
+							List<SchoolHistory> hists = new ArrayList<SchoolHistory>();
+							hists.add(history);
+							map.put(history.getStudentId()+"", hists);
+						}
+					
+					}
+					return map;
+				};
+			});
+}
+
+```
+-Data Access Object/Repository Files:  Initially when switching over to Spring, used JdbcTemplate w/ rowmappers, etc...was in the process of updating all to use Hibernate/JPA and other modern Spring techniques
+-Wished things liked Lambdas, other  was current Java features were available, was in the process of updating code. 
+
+```java
+public List<ReachHeading> getReachBySchool(Integer schoolId) {
+
+		List<ReachHeading> reachs = sessionFactory.getCurrentSession().createCriteria(ReachHeading.class, "reach")
+				.setFetchMode("outcomes", FetchMode.JOIN)
+				.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
+				.add(Restrictions.eq("schoolId", schoolId))
+				.addOrder(Order.asc("order"))
+				.list();
+				
+			return reachs;
+
+	}
+```
+-DAO using hibernate example, was excited to try to upgrade to more modern techs from Spring like 'extends CrudRepository<User, Long>' using Spring Data JPA, etc
+further 
+-Also used a service layer above the/relying on the DAO layer for the main code that would be used to perform processes, utilizing Spring transactions, etc
+
+```java
+public class CourseInfoServlet extends javax.servlet.http.HttpServlet implements javax.servlet.Servlet {
+	   
+	public CourseInfoServlet() {
+		super();
+	}   	
+	
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		doPost(request,response);
+	}  		
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	     CourseCategoryDao courseCategoryDao=AppCon.getCourseCategoryDao();
+	    RubricDao rubricDao=AppCon.getRubricDao();
+		HttpSession session = request.getSession(true);
+		String scid = request.getParameter("scid");
+		String usercommand = request.getParameter("mancat");
+       
+        if(usercommand.equalsIgnoreCase("find")){
+                String grade = request.getParameter("grade").trim();
+                String subject = request.getParameter("subject").trim();
+                List<CourseCategoryDefaults> ccd = courseCategoryDao.getCourseCategoryDefaults(subject,grade,scid);
+                if(ccd.size()==0){
+                	session.removeAttribute("managecategory");
+                	List<CourseCategoryDefaults> tmpccd = new ArrayList<CourseCategoryDefaults>();
+                	CourseCategoryDefaults tccd = new CourseCategoryDefaults();
+                	tccd.setGrade(Integer.parseInt(grade));
+                	tccd.setGroup(Integer.parseInt(subject));
+                	tccd.setCategory("Enter category Name");
+                	tccd.setPercent(0);
+                	tccd.setSchoolId(scid);
+                	tccd.setOrder(1);
+                	tmpccd.add(tccd);
+                	session.setAttribute("managecategory", tmpccd);
+                	
+                	session.setAttribute("managecategorystatus","No categories for that subject/grade.");
+                }else{
+                	session.setAttribute("managecategory", ccd);  
+                }
+...
+ response.sendRedirect("managecourseinfo.jsp"+"?scid="+scid);
+```
+-started out by using servlets for the controller level of MVC, but then was switching over to web @Controller classes  
+
+```java
+@Controller
+@RequestMapping(value="/ipp")
+public class IPPController {
+
+	@Autowired
+	private IPPDao ippDao;
+	@Autowired
+	private TermDao termDao;
+	@Autowired
+	private StudentDao studentDao;
+...
+	@RequestMapping(value="/ipp/{courseId}/{schoolId}", method=RequestMethod.GET)
+	public String getAvailability(@PathVariable String courseId, @PathVariable String schoolId,HttpServletRequest request, Model model) {
+		HttpSession session = request.getSession(true);
+		Teacher user =  (Teacher)session.getAttribute("user");
+		if(user == null){
+			String us = loginDao.getUserBySession(session.getId(), schoolId);
+			user = teacherDao.getTeacherInfo(us, schoolId);
+		}
+		 model.addAttribute("scid", schoolId);
+		if(user == null){
+			return "login";
+		}
+		model.addAttribute("saying", Validate.getSaying());
+		
+		String term = termDao.getTermCode(schoolId);
+		
+		List<Student> students = studentDao.getStudentsByCourseListWithCourses(courseId, term, schoolId);
+		String endyear = optionsDao.getName("endyear", schoolId);
+		model.addAttribute("endyear", endyear);
+		String startyear = optionsDao.getName("startyear", schoolId);
+		model.addAttribute("startyear", startyear);
+		Map<String,List<PrincipleDean>> principles = ippDao.getPrincipalDeans(schoolId);
+		model.addAttribute("principles", principles);
+		Map<String,List<Accommodation>> accommodations = ippDao.getAccommodations(schoolId);
+		model.addAttribute("accommodations", accommodations);
+		List<Teacher> teachers = teacherDao.getTeachers(schoolId, "enabled");
+		
+...
+		
+		
+		model.addAttribute("schools", schools);
+		
+		model.addAttribute("teachers", teachers);
+		Gson gson = new Gson();
+		List<GsonIdName> gs = new ArrayList<GsonIdName>();
+		for(Teacher teacher : teachers){
+			GsonIdName gi = new GsonIdName();
+			gi.setId(teacher.getId());
+			gi.setText(teacher.getFirstName()+" "+teacher.getLastName());
+			gs.add(gi);
+		}
+		model.addAttribute("gs", gson.toJson(gs));
+		
+		
+		 
+		 String existingTheme = ippDao.getTheme(user.getId(), schoolId);
+		 if(existingTheme.equals("")){
+			 existingTheme = "flick";
+		 }
+		 model.addAttribute("existingTheme", existingTheme);
+		 
+		 model.addAttribute("path_check", optionsDao.getPath("reportcheck",schoolId));
+		 model.addAttribute("path_link", optionsDao.getPath("reportlink",schoolId));
+		 model.addAttribute("slash", "/");
+		 model.addAttribute("ipp_word", "ipp");
+		 model.addAttribute("pdf_word", ".pdf");
+		return "ipp/ipp";
+	}
+
+```
+-Controller example
 
 ```java
 public aspect AttendanceAspect {
