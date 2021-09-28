@@ -483,7 +483,7 @@ public class AssignmentJdbcDaoTest extends DatabaseTestCase {
     	
     	}
 ```
---used dbUnit for data layer test, probably better to have used Spring tests 
+-used dbUnit for data layer test, probably better to have used Spring tests 
 
 #### frontend interfaces
 ```html
@@ -889,6 +889,7 @@ $(function() {
 
 ```
 
+#### Misc
 
 ```java
 public aspect AttendanceAspect {
@@ -952,7 +953,7 @@ public aspect AttendanceAspect {
  ``` 
  -Started off using xml files for Spring configuration, was in the process of updating to just using Java classes and defining beans using annotations
  
-  ```java
+```java
  
 click.expand=Click to Expand
 click.collapse=Click to Collapse
@@ -963,8 +964,7 @@ granted.access=Granted Access:
 
 ```
 -used xxx_en.properties files for many front end, there was talk with one school about translating to spanish as well
- 
- 
+  
 
 ## About Me <a name="about"></a>
 
