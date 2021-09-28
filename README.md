@@ -974,10 +974,10 @@ granted.access=Granted Access:
 
 ## About Me <a name="about"></a>
 
-#### Side note - Just to give a little insight into my personality, here was the message Calgary Academy wrote on their weekly newsletter about my departure.
+####  Just to give a little insight into my personality, here was the message Calgary Academy wrote on their weekly newsletter about my departure.
 [Click here to open pdf](https://github.com/jaysait/CA-Student-Info-System/blob/master/_CAConnectionShowingDepartingMessage.pdf)
 
-#### Side note - because I loaded everything upfront in certain areas of the program, to pass the initial wait I would include random made up facts (late show style) about individual program plans (IPP)/related topics to help pass the time, also shows a little bit about my sense of humour or lack there of
+#### Because I loaded everything upfront in certain areas of the program, to pass the initial wait I would include random made up facts (late show style) about individual program plans (IPP)/related topics to help pass the time, also shows a little bit about my sense of humour or lack there of
 - One out of every 15 IPPs involve making better jerky
 - In a small tribe in the Amazon, it's believed that IPPs are the work of sorcerers
 - Raccoons are the only other documented animal that also practise IPPs...and as you'd expect most of the goals pertain to Algebra or opening cans
