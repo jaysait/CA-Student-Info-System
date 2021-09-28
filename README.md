@@ -212,9 +212,8 @@ public List<ReachHeading> getReachBySchool(Integer schoolId) {
 
 }
 ```
--DAO using hibernate example, was excited to try to upgrade to more modern techs from Spring like 'extends CrudRepository<User, Long>' using Spring Data JPA, etc
-further 
--Also used a service layer above the/relying on the DAO layer for the main code that would be used to perform processes, utilizing Spring transactions, etc
+-DAO using hibernate example, was excited to try to upgrade to more modern techs from Spring like 'extends CrudRepository<User, Long>' using Spring Data JPA, etc further 
+-Also used a service layer above the DAO layer for the main code that would be used to perform business logic, utilizing Spring transactions, etc
 
 ```java
 public class CourseInfoServlet extends javax.servlet.http.HttpServlet implements javax.servlet.Servlet {
