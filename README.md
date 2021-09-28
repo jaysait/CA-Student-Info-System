@@ -139,9 +139,7 @@ public class IPPJdbcDaoImpl implements IPPDao {
 	public synchronized void saveSubjects(Set<String> subjects, String scid){
 	    
 		for(String subject : subjects){
-			  this.jdbcTemplate.update(
-						"INSERT INTO ipp_subjects ( name, school_id) "+
-			              " VALUES ( ?,?)",
+			this.jdbcTemplate.update("INSERT INTO ipp_subjects ( name, school_id)  VALUES ( ?,?)",
 						new Object[] { subject, scid});
 		}
 	  
@@ -155,46 +153,43 @@ public synchronized int saveSubject(String subject, String scid){
 	 jdbcTemplate.update(
 	            new PreparedStatementCreator() {
 	                public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
-	                	String sql ="INSERT INTO ipp_subjects ( name, school_id) "+
-	              " VALUES ( ?,?)";
-	                    PreparedStatement ps =
-	                        connection.prepareStatement(sql, new String[] {"id"});
-	                    ps.setString(1, subjectF);
-	                    ps.setString(2, scidF);
-	                    return ps;
+	                	String sql ="INSERT INTO ipp_subjects ( name, school_id)  VALUES ( ?,?)";
+	                    	PreparedStatement ps = connection.prepareStatement(sql, new String[] {"id"});
+	                    	ps.setString(1, subjectF);
+	                    	ps.setString(2, scidF);
+	                    	return ps;
 	                }
 	            },
 	            keyHolder);
-	        return keyHolder.getKey().intValue();
+		return keyHolder.getKey().intValue();
 	}	
 	
 public Map<String,List<SchoolHistory>> getSchoolHistories(String scid) {
 	
 	return (Map<String, List<SchoolHistory>>) this.jdbcTemplate.query(
-			"Select * from ipp_school_history where school_id = ? order by student_id, display_order",
-			new Object[] {scid },
-			new ResultSetExtractor() {
-				public Object extractData(ResultSet rs) throws SQLException {
-					Map<String, List<SchoolHistory>> map = new HashMap<String, List<SchoolHistory>>();
-					while (rs.next()) {
-
-						SchoolHistory history = new SchoolHistory();
-						history.setId(rs.getInt("id"));
-						history.setOrder(rs.getInt("display_order"));
-						history.setSchool(rs.getString("school"));
-						history.setStudentId(rs.getInt("student_id"));
-						history.setYear(rs.getString("year"));
-						history.setSchoolId(rs.getString("school_id"));
-						if(map.containsKey(history.getStudentId()+"")){
-							map.get(history.getStudentId()+"").add(history);
-						}else{
-							List<SchoolHistory> hists = new ArrayList<SchoolHistory>();
-							hists.add(history);
-							map.put(history.getStudentId()+"", hists);
-						}
-					
+		"Select * from ipp_school_history where school_id = ? order by student_id, display_order",
+		new Object[] {scid },
+		new ResultSetExtractor() {
+			public Object extractData(ResultSet rs) throws SQLException {
+				Map<String, List<SchoolHistory>> map = new HashMap<String, List<SchoolHistory>>();
+				while (rs.next()) {
+					SchoolHistory history = new SchoolHistory();
+					history.setId(rs.getInt("id"));
+					history.setOrder(rs.getInt("display_order"));
+					history.setSchool(rs.getString("school"));
+					history.setStudentId(rs.getInt("student_id"));
+					history.setYear(rs.getString("year"));
+					history.setSchoolId(rs.getString("school_id"));
+					if(map.containsKey(history.getStudentId()+"")){
+						map.get(history.getStudentId()+"").add(history);
+					}else{
+						List<SchoolHistory> hists = new ArrayList<SchoolHistory>();
+						hists.add(history);
+						map.put(history.getStudentId()+"", hists);
 					}
-					return map;
+	
+				}
+				return map;
 				};
 			});
 }
@@ -206,16 +201,16 @@ public Map<String,List<SchoolHistory>> getSchoolHistories(String scid) {
 ```java
 public List<ReachHeading> getReachBySchool(Integer schoolId) {
 
-		List<ReachHeading> reachs = sessionFactory.getCurrentSession().createCriteria(ReachHeading.class, "reach")
+	List<ReachHeading> reachs = sessionFactory.getCurrentSession().createCriteria(ReachHeading.class, "reach")
 				.setFetchMode("outcomes", FetchMode.JOIN)
 				.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
 				.add(Restrictions.eq("schoolId", schoolId))
 				.addOrder(Order.asc("order"))
 				.list();
 				
-			return reachs;
+	return reachs;
 
-	}
+}
 ```
 -DAO using hibernate example, was excited to try to upgrade to more modern techs from Spring like 'extends CrudRepository<User, Long>' using Spring Data JPA, etc
 further 
@@ -232,8 +227,8 @@ public class CourseInfoServlet extends javax.servlet.http.HttpServlet implements
 		doPost(request,response);
 	}  		
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	     CourseCategoryDao courseCategoryDao=AppCon.getCourseCategoryDao();
-	    RubricDao rubricDao=AppCon.getRubricDao();
+	     	CourseCategoryDao courseCategoryDao=AppCon.getCourseCategoryDao();
+	    	RubricDao rubricDao=AppCon.getRubricDao();
 		HttpSession session = request.getSession(true);
 		String scid = request.getParameter("scid");
 		String usercommand = request.getParameter("mancat");
@@ -260,7 +255,7 @@ public class CourseInfoServlet extends javax.servlet.http.HttpServlet implements
                 	session.setAttribute("managecategory", ccd);  
                 }
 ...
- response.sendRedirect("managecourseinfo.jsp"+"?scid="+scid);
+ 	response.sendRedirect("managecourseinfo.jsp"+"?scid="+scid);
 ```
 -started out by using servlets for the controller level of MVC, but then was switching over to web @Controller classes  
 
@@ -284,7 +279,7 @@ public class IPPController {
 			String us = loginDao.getUserBySession(session.getId(), schoolId);
 			user = teacherDao.getTeacherInfo(us, schoolId);
 		}
-		 model.addAttribute("scid", schoolId);
+		model.addAttribute("scid", schoolId);
 		if(user == null){
 			return "login";
 		}
@@ -304,8 +299,7 @@ public class IPPController {
 		List<Teacher> teachers = teacherDao.getTeachers(schoolId, "enabled");
 		
 ...
-		
-		
+				
 		model.addAttribute("schools", schools);
 		
 		model.addAttribute("teachers", teachers);
@@ -318,20 +312,17 @@ public class IPPController {
 			gs.add(gi);
 		}
 		model.addAttribute("gs", gson.toJson(gs));
-		
-		
-		 
-		 String existingTheme = ippDao.getTheme(user.getId(), schoolId);
-		 if(existingTheme.equals("")){
-			 existingTheme = "flick";
-		 }
-		 model.addAttribute("existingTheme", existingTheme);
-		 
-		 model.addAttribute("path_check", optionsDao.getPath("reportcheck",schoolId));
-		 model.addAttribute("path_link", optionsDao.getPath("reportlink",schoolId));
-		 model.addAttribute("slash", "/");
-		 model.addAttribute("ipp_word", "ipp");
-		 model.addAttribute("pdf_word", ".pdf");
+ 
+		String existingTheme = ippDao.getTheme(user.getId(), schoolId);
+		if(existingTheme.equals("")){
+		 	existingTheme = "flick";
+		}
+		model.addAttribute("existingTheme", existingTheme);
+		model.addAttribute("path_check", optionsDao.getPath("reportcheck",schoolId));
+		model.addAttribute("path_link", optionsDao.getPath("reportlink",schoolId));
+		model.addAttribute("slash", "/");
+		model.addAttribute("ipp_word", "ipp");
+		model.addAttribute("pdf_word", ".pdf");
 		return "ipp/ipp";
 	}
 
@@ -391,37 +382,34 @@ public class GetStudentTest {
 
 ```java
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath:**/web.xml","/isis-data.xml",
-                                    "/isis-data-jdbc.xml",
-                                    "/isis-service.xml",
-                                    "/isis-servlet.xml"})
+@ContextConfiguration(locations = { "classpath:**/web.xml","/isis-data.xml","/isis-data-jdbc.xml",
+"/isis-service.xml", "/isis-servlet.xml"})
 public class PhoneNumberControllerIntegrationTest {
 	 
 	@Autowired
-	    private ApplicationContext applicationContext;
+	private ApplicationContext applicationContext;
 
-	    private MockHttpServletRequest request;
-	    private MockHttpServletResponse response;
-	    private MockHttpSession session;
-	    private HandlerAdapter handlerAdapter;
+	private MockHttpServletRequest request;
+	private MockHttpServletResponse response;
+	private MockHttpSession session;
+	private HandlerAdapter handlerAdapter;
 	    
-	    @Autowired
-	    PhoneNumberController phoneController;
+	@Autowired
+	PhoneNumberController phoneController;
 
-	    @Before
-	    public void setUp() throws Exception {
-	        this.request = new MockHttpServletRequest();
+	@Before
+	public void setUp() throws Exception {
+		this.request = new MockHttpServletRequest();
 	        this.response = new MockHttpServletResponse();
 	        this.session = new MockHttpSession();
 
 	        this.handlerAdapter = applicationContext.getBean(HandlerAdapter.class);
-	    }
+	}
 
-	    ModelAndView handle(HttpServletRequest request, HttpServletResponse response)
-	            throws Exception 
+	    ModelAndView handle(HttpServletRequest request, HttpServletResponse response)       throws Exception 
 ...
 	@Test
-	    public void testFindNew() throws Exception {
+	public void testFindNew() throws Exception {
 	    	Integer scid = 61570;
 	    	Integer rid = -1;
 	    	String sid = "107309015";
@@ -433,16 +421,16 @@ public class PhoneNumberControllerIntegrationTest {
 	        assertViewName(mav, "pasi/managephone");
 	        assertModelAttributeAvailable(mav, "today");
 	        List<String> listables = new ArrayList<String>();
-		      listables.add("Yes");
-		      listables.add("No");
-		      listables.add("Unknown");
+		listables.add("Yes");
+		listables.add("No");
+		listables.add("Unknown");
 	        assertModelAttributeValue(mav, "listables", listables);
 	        PhoneNumber phone = null;
 	        assertNull(mav.getModel().get("phone"));
 	        assertModelAttributeValue(mav, "sid", sid);
 	        assertModelAttributeValue(mav, "scid", scid);
 	        assertModelAttributeValue(mav, "preferred", pref);
-	    }
+	   }
 		   
 ```
 -mocks to test controllers
@@ -460,7 +448,7 @@ public class AssignmentJdbcDaoTest extends DatabaseTestCase {
         ctx = new ClassPathXmlApplicationContext(configLocations);
         assignmentDao= (AssignmentDao)ctx.getBean("assignmentDao");
         super.setUp();
-       }
+    }
 
     protected IDatabaseConnection getConnection() throws Exception {
         DataSource ds = (DataSource) ctx.getBean("dataSource");
@@ -470,40 +458,38 @@ public class AssignmentJdbcDaoTest extends DatabaseTestCase {
     protected IDataSet getDataSet() throws Exception {
         return new XmlDataSet(new FileInputStream("data/tests/c/_master.xml"));
     }
-
-    /* What DbUnit does with the existing data and with data in the XML file */
-    protected DatabaseOperation getSetUpOperation() throws Exception {
-        return DatabaseOperation.REFRESH;
+   
+    	protected DatabaseOperation getSetUpOperation() throws Exception {
+        	return DatabaseOperation.REFRESH;
 	}
 	public void testSaveAssignment()throws Exception{
-    	Assignment assignment = new Assignment();
-    	assignment.setCourseID(Data.COURSE_ID);
-    	assignment.setCategoryID("...");
-    	assignment.setAssignmentID(99999);
-    	assignment.setGivenDate(DateUtil.getDate("10/10/2018"));
-    	assignment.setDueDate(DateUtil.getDate("10/11/2018"));
-    	assignment.setShortDesc("testdesc");
-    	assignment.setFullDesc("testfulldesc");
-    	assignment.setAssignValue(10);
-    	assignment.setWeight(0);
-    	assignment.setTermCode(Data.TERM);
-    	assignment.setSchoolId(Data.SCHOOL_ID);
-    	assignmentDao.saveAssignment(assignment);
+    		Assignment assignment = new Assignment();
+    		assignment.setCourseID(Data.COURSE_ID);
+    		assignment.setCategoryID("...");
+    		assignment.setAssignmentID(99999);
+    		assignment.setGivenDate(DateUtil.getDate("10/10/2018"));
+    		assignment.setDueDate(DateUtil.getDate("10/11/2018"));
+    		assignment.setShortDesc("testdesc");
+    		assignment.setFullDesc("testfulldesc");
+    		assignment.setAssignValue(10);
+    		assignment.setWeight(0);
+    		assignment.setTermCode(Data.TERM);
+    		assignment.setSchoolId(Data.SCHOOL_ID);
+    		assignmentDao.saveAssignment(assignment);
     	
-    	Assignment assignment2 = assignmentDao.getAssignment("99999", Data.TERM, Data.COURSE_ID,Data.SCHOOL_ID);
-    	assertNotNull(assignment2);
-    	assignmentDao.deleteAssignment(assignment);
-    	assertNull(assignmentDao.getAssignment("99999", Data.TERM, Data.COURSE_ID,Data.SCHOOL_ID));
+    		Assignment assignment2 = assignmentDao.getAssignment("99999", Data.TERM, Data.COURSE_ID,Data.SCHOOL_ID);
+    		assertNotNull(assignment2);
+    		assignmentDao.deleteAssignment(assignment);
+    		assertNull(assignmentDao.getAssignment("99999", Data.TERM, Data.COURSE_ID,Data.SCHOOL_ID));
     	
-    }
+    	}
 ```
 --used dbUnit for data layer test, probably better to have used Spring tests 
 
 #### frontend interfaces
 ```html
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-    <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
@@ -515,227 +501,168 @@ public class AssignmentJdbcDaoTest extends DatabaseTestCase {
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Recognition Awards</title>
 <link type="text/css" rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/themes/${existingTheme}/jquery-ui.css" />
- <link rel="stylesheet" href="${base }css/demos.css" type="text/css" />
-   
-   
-   <link rel="stylesheet" href="${base }js/chosen/chosen.relative.css" />
-   <style type="text/css" title="currentStyle">
-		@import "${base }css/demo_page.css";
-			@import "${base }css/demo_table_jui.css";
-			@import "${base }TableTools-2.0.1/media/css/TableTools_JUI.css";
-		</style>
-		<link rel="stylesheet" href="${base }css/process.css" type="text/css" />
-
+<link rel="stylesheet" href="${base }css/demos.css" type="text/css" />
+<link rel="stylesheet" href="${base }js/chosen/chosen.relative.css" />
+<style type="text/css" title="currentStyle">
+	@import "${base }css/demo_page.css";
+	@import "${base }css/demo_table_jui.css";
+	@import "${base }TableTools-2.0.1/media/css/TableTools_JUI.css";
+</style>
+<link rel="stylesheet" href="${base }css/process.css" type="text/css" />
 
 </head> 
 <body>
-   <div id="light" class="white_content">Loading...<img src="${base }images/ajax-loader.gif" alt="loading" class="loading"><h2>${saying }</h2></div>
-    <div id="fade" class="black_overlay"></div> 
+	<div id="light" class="white_content">Loading...<img src="${base }images/ajax-loader.gif" alt="loading" class="loading"><h2>${saying }</h2></div>
+    	<div id="fade" class="black_overlay"></div> 
 
-<table class="header">
-				<tr>
-					<td class="offheader">
-<c:choose>
-		<c:when test="${fn:startsWith(sessionScope.user.type,'d')==true}">
-			<a class="head bootton"	href="${base }indexdirector.jsp?scid=${scid }">home</a>
-					
-		</c:when>
-		<c:otherwise>
+	<table class="header">
+		<tr>
+			<td class="offheader">
 			<c:choose>
-				<c:when test="${fn:startsWith(sessionScope.user.type,'a')==true}">
-					<a class="head bootton"	href="${base }indexassist.jsp?scid=${scid}">home</a>
-							
-				</c:when>
-				<c:otherwise>
-					<a class="head bootton"	href="${base }index.jsp?scid=${scid }">home</a>
-							
-				</c:otherwise>
+			<c:when test="${fn:startsWith(sessionScope.user.type,'d')==true}">
+				<a class="head bootton"	href="${base }indexdirector.jsp?scid=${scid }">home</a>
+			</c:when>
+			<c:otherwise>
+			<c:choose>
+			<c:when test="${fn:startsWith(sessionScope.user.type,'a')==true}">
+				<a class="head bootton"	href="${base }indexassist.jsp?scid=${scid}">home</a>
+			</c:when>
+			<c:otherwise>
+				<a class="head bootton"	href="${base }index.jsp?scid=${scid }">home</a>
+			</c:otherwise>
 			</c:choose>
-		</c:otherwise>
-	</c:choose>
-	</td>
-				</tr>
-			</table>
+			</c:otherwise>
+			</c:choose>
+			</td>
+		</tr>
+	</table>
 	
-<div id="processing" class="ui-state-error ui-corner-all">
-		</div>
-
-
+<div id="processing" class="ui-state-error ui-corner-all"></div>
+	
 <div class="ui-state-active ui-corner-all" style="margin-left: auto;margin-right: auto; width: 50%;">
-
-
 
 <c:choose>
 	<c:when test="${not empty hrcourses }">
 	<c:forEach items="${hrcourses }" var="course">
-<c:choose>
-	<c:when test="${course.id == courseId }">
-	${course.formalName} (${course.teacherId })
-	</c:when>
-	<c:otherwise>
-	<a class="bootton" href="${base }psi/recognition/award/${course.id}/-1/${scid}">${course.formalName} (${course.teacherId })</a>
-	</c:otherwise>
+		<c:choose>
+			<c:when test="${course.id == courseId }">
+				${course.formalName} (${course.teacherId })
+			</c:when>
+		<c:otherwise>
+			<a class="bootton" href="${base }psi/recognition/award/${course.id}/-1/${scid}">${course.formalName} (${course.teacherId })</a>
+		</c:otherwise>
+		</c:choose>
 
-</c:choose>
-
-</c:forEach>
+	</c:forEach>
 	</c:when>
-	<c:otherwise>
-	
-	Grades 
-	
- <c:forEach items="${grades }" var="grade">
-                      <c:choose>
-				<c:when test="${gradePicked == grade.key}">
-				 <b>	 ${grade.value }</b>
-				</c:when>
-				<c:otherwise>
+	<c:otherwise>	
+		Grades 	
+ 		<c:forEach items="${grades }" var="grade">
+                	<c:choose>
+			<c:when test="${gradePicked == grade.key}">
+				 <b>${grade.value }</b>
+			</c:when>
+			<c:otherwise>
 				<a class="bootton" href="${base }psi/recognition/award/-1/${grade.key}/${scid}">${grade.value } </a>
-				</c:otherwise>
+			</c:otherwise>
 			</c:choose>
-                      </c:forEach>
-  
-<br/>
+            	</c:forEach>
+  <br/>
 <c:forEach items="${courses }" var="course">
 <c:choose>
 	<c:when test="${course.id == courseId }">
-	${course.formalName} (${course.teacherId })
+		${course.formalName} (${course.teacherId })
 	</c:when>
 	<c:otherwise>
-	<a class="bootton" href="${base }psi/recognition/award/${course.id}/${gradePicked}/${scid}">${course.formalName} (${course.teacherId })</a>
-	</c:otherwise>
-
-</c:choose>
-
-</c:forEach>
-	
-	
+		<a class="bootton" href="${base }psi/recognition/award/${course.id}/${gradePicked}/${scid}">${course.formalName} (${course.teacherId })</a>
 	</c:otherwise>
 </c:choose>
-
+</c:forEach>	
+</c:otherwise>
+</c:choose>
 
 </div>
 <br/>
 
-  <c:if test="${not empty students }">
- <select id="gt_reach">
- <option value="1">greater than</option>
- <option value="2">less than</option>
- </select>
-  REACH<input id="reach_limit"  />
-
-  <input type="hidden" name="scid" id="scid" value="${scid }" />
-<input type="hidden" name="cid" value="${courseId }" />
-<input type="hidden" name="y" value="${endyear }" />
+ <c:if test="${not empty students }">
+	 <select id="gt_reach">
+ 		<option value="1">greater than</option>
+	 	<option value="2">less than</option>
+ 	</select>
+  	REACH<input id="reach_limit"  />
+  	<input type="hidden" name="scid" id="scid" value="${scid }" />
+	<input type="hidden" name="cid" value="${courseId }" />
+	<input type="hidden" name="y" value="${endyear }" />  
+   	<fmt:formatDate pattern="MM/dd/yyyy" value="${now }" />
   
-   <fmt:formatDate pattern="MM/dd/yyyy" value="${now }" />
-  
-  <table id="filled"  class="display">
- <thead>
-<tr>
-<th>Name of Student</th><th>President's List</th><th>REACH Award</th><th>Personal Best</th>
-<th>Attendance <br/>Months Perfect</th><th>Attendance <br/>Days Absent for the year</th><th>Homework 100%</th><th>Homework</th>
+  	<table id="filled"  class="display">
+ 	<thead>
+	<tr>
+		<th>Name of Student</th><th>President's List</th><th>REACH Award</th><th>Personal Best</th>
+		<th>Attendance <br/>Months Perfect</th><th>Attendance <br/>Days Absent for the year</th><th>Homework 100%</th><th>Homework</th>
 
-<c:forEach items="${options }" var="option">
-<th>${option.subjectName }</th>
-</c:forEach>
+		<c:forEach items="${options }" var="option">
+			<th>${option.subjectName }</th>
+		</c:forEach>
 
+		<c:forEach items="${subjects }" var="subject">
+			<th>AI - ${subject.subjectName }</th>
+		</c:forEach>
+		<c:forEach items="${subjects }" var="subject">
+			<th>AE - ${subject.subjectName }</th>
+		</c:forEach>
+	</tr>
+	</thead>
 
-
-<c:forEach items="${subjects }" var="subject">
-<th>AI - ${subject.subjectName }</th>
-</c:forEach>
-<c:forEach items="${subjects }" var="subject">
-<th>AE - ${subject.subjectName }</th>
-</c:forEach>
-</tr>
-
-</thead>
-
-<c:forEach items="${students }" var="student">
-<tr>
-<td >${student.givenName } ${student.surName }</td>
-<td><span id="president_${student.id }">${winners[student.id]['president'] }</span>
-<c:if test="${empty hrcourses }">
-	 <input class="bootton pres" type="button" id="yes_${student.id }" value="Yup" />
-	 <input class="bootton pres" type="button" id="no_${student.id }" value="Nope" />
-	 </c:if>
-	 <br/>
-	  
-	</td>
-<td>${reaches[student].amount }</td>
-	<td>
-	  
-	 
-	</td>
-	
+	<c:forEach items="${students }" var="student">
+	<tr>
+		<td >${student.givenName } ${student.surName }</td>
+		<td><span id="president_${student.id }">${winners[student.id]['president'] }</span>
+		<c:if test="${empty hrcourses }">
+	 		<input class="bootton pres" type="button" id="yes_${student.id }" value="Yup" />
+	 		<input class="bootton pres" type="button" id="no_${student.id }" value="Nope" />
+	 	</c:if>
+	 <br/>	  
+		</td>
+		<td>${reaches[student].amount }</td>
+		<td>	</td>	
 	<td>${attendances[student].amount }</td>
-	<td>${attendanceDays[student.id] }</td>
-	
-	
+	<td>${attendanceDays[student.id] }</td>	
 	<td>${homeworks[student].amount }</td>
-	<td>
-	 
+	<td>	 
 	</td>
-
-
-<c:forEach items="${options }" var="option">
-<td>${optionGrades[student][option.subjectId].finalgrade }</td>
-</c:forEach>
-
-	
+	<c:forEach items="${options }" var="option">
+		<td>${optionGrades[student][option.subjectId].finalgrade }</td>
+	</c:forEach>	
 	
 	<c:forEach items="${subjects }" var="subject">
-<td>${improvements[student.id][subject.subjectId]}</td>
-</c:forEach>
-		<c:forEach items="${subjects }" var="subject">
-<td>${excellents[student.id][subject.subjectId]}</td>
-</c:forEach>
+		<td>${improvements[student.id][subject.subjectId]}</td>
+	</c:forEach>
+	<c:forEach items="${subjects }" var="subject">
+		<td>${excellents[student.id][subject.subjectId]}</td>
+	</c:forEach>
 	 
 	</tr>
-</c:forEach>
-
+	</c:forEach>
 </table>
 
 </c:if>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
-
 <script type="text/javascript" src="${base }js/confirm.js"></script>
-
 <script type="text/javascript" charset="utf-8" src="${base }scripts/jquery.dataTables.js"></script>
-		<script type="text/javascript" charset="utf-8" src="${base }TableTools-2.0.1/media/js/ZeroClipboard.js"></script>
-		<script type="text/javascript" charset="utf-8" src="${base }TableTools-2.0.1/media/js/TableTools.js"></script>
+<script type="text/javascript" charset="utf-8" src="${base }TableTools-2.0.1/media/js/ZeroClipboard.js"></script>
+<script type="text/javascript" charset="utf-8" src="${base }TableTools-2.0.1/media/js/TableTools.js"></script>
 <script>
 
 $.fn.dataTableExt.afnFiltering.push(
-		function( oSettings, aData, iDataIndex ) {
-			var iMin = document.getElementById('reach_limit').value ;
-			
-			var gt = document.getElementById('gt_reach').value ;
-			var iVersion = aData[2] == "" ? 0 : aData[2]*1;
-			
-			console.log(gt);
-			console.log(iVersion+' - '+iMin);
-			if( gt == 1){
+	function( oSettings, aData, iDataIndex ) {
+		var iMin = document.getElementById('reach_limit').value ;
+		var gt = document.getElementById('gt_reach').value ;
+		var iVersion = aData[2] == "" ? 0 : aData[2]*1;
+		if( gt == 1){
 				if ( iMin == "" )
-				{
-					return true;
-				}
-				else if (  iVersion >= iMin )
-				{
-					return true;
-				}
-				return false;
-			}else{
-				if ( iMin == "" )
-				{
-					return true;
-				}
-				else if (  iVersion < iMin )
-				{
-					return true;
-				}
+		...
 				return false;
 			}
 		
@@ -743,77 +670,60 @@ $.fn.dataTableExt.afnFiltering.push(
 	);
 
 
-
-
 $(function() {
 	var $loading = $('<img src="${base }images/ajax-loader.gif" alt="loading" class="loading">');
 			 
-		$( ".bootton" ).button();
+	$( ".bootton" ).button();
 		
-		setTimeout(function(){$('#light').hide();
+	setTimeout(function(){$('#light').hide();
 		$('#fade').hide();},3000);
 		
-		var asInitVals = new Array();
-		var oTable = $('#filled').dataTable( {
-			"bJQueryUI": true,
-			"bPaginate": false,
-			"sDom": '<"H"Tfrlp>t<"F"ip>',
-			"oTableTools": {
+	var asInitVals = new Array();
+	var oTable = $('#filled').dataTable( {
+		"bJQueryUI": true,
+		"bPaginate": false,
+		"sDom": '<"H"Tfrlp>t<"F"ip>',
+		"oTableTools": {
 				"aButtons": [
-{
-	"sExtends": "csv",
-    "sButtonText": "Download",
-    "mColumns": "visible",
-    "sFieldBoundary": ''  
-    }
-				],
-				"sSwfPath": "${base}TableTools-2.0.1/media/swf/copy_cvs_xls_pdf.swf"
-			},
-			"oLanguage": {
-				"sSearch": "Search all columns:"
-			},
-			"aaSorting": [],
-			"fnInitComplete": function () {
-			    this.fnHideEmptyColumns(this);
+		{
+			"sExtends": "csv",
+    			"sButtonText": "Download",
+    			"mColumns": "visible",
+   			 "sFieldBoundary": ''  
+    			}
+	...
 			},
 			 "sScrollX": "100%"
 			
 		} );
-		$("div.toolbar").html('');  
+	$("div.toolbar").html('');  
 		
-		$('#reach_limit').keyup( function() { oTable.fnDraw(); } );
-		$('#homework_limit').keyup( function() { oTable.fnDraw(); } );
-		$( "#gt_reach" ).change(function() {
-			oTable.fnDraw();
-			});
-		
-    
-     
+	$('#reach_limit').keyup( function() { oTable.fnDraw(); } );
+	$('#homework_limit').keyup( function() { oTable.fnDraw(); } );
+	$( "#gt_reach" ).change(function() {
+		oTable.fnDraw();
+		});
+	    
      $(".pres").click(function() {
-    	 var idd = $(this).attr('id');
-    	 var answ = idd.substring(0, idd.indexOf('_'));
-		 idd = idd.substring(idd.indexOf('_'),idd.length);
-		  $.post("${base}psi/recognition/savePresident", 
-        		  {pick: $(this).attr('id'),
-        			  scid: $('#scid').val()
-					}, 
-        		  function(data){
-        				  
-        				  if(data != ''){
-        				  var tar = $('#processing');
-        				  tar.html(data);
-        				  tar.fadeIn(2000).animate({duration: 'slow', queue: false}, function() {
-        				    });
-        				  tar.fadeOut(2000);
-        				  $('#president'+idd).html(answ);
-        				   
-        			  }
-        		  });
+    	var idd = $(this).attr('id');
+    	var answ = idd.substring(0, idd.indexOf('_'));
+	idd = idd.substring(idd.indexOf('_'),idd.length);
+	$.post("${base}psi/recognition/savePresident", 
+        	{pick: $(this).attr('id'),
+        	  scid: $('#scid').val()}, 
+        	function(data){        				  
+        		if(data != ''){
+        			var tar = $('#processing');
+        			 tar.html(data);
+        			 tar.fadeIn(2000).animate({duration: 'slow', queue: false}, function() {
+        			    });
+        			 tar.fadeOut(2000);
+        			 $('#president'+idd).html(answ);        				   
+        		}
+        	});
     	 
-     });
-	});
-	
-	
+     	});
+	});	
 	</script>
 
 </body>
@@ -829,32 +739,26 @@ $(function() {
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <html>
 <head>
-
 <script>
 
 $(function() {
 	
 	jQuery.validator.addMethod("dateComparison",function(value,element) {
-	    var result= true;			
-	    if($("#expiry_phone").val().length > 0 ) 
-	      {
-	        var dateArray= $("#effective_phone").val().split("/");
-	        var startDateObj= new Date(dateArray[0],(dateArray[1]-1),dateArray[2],0,0,0,0);
-	     
-	    var endDateArray= $("#expiry_phone").val().split("/");
-	    var endDateObj= new Date(endDateArray[0],(endDateArray[1]-1),endDateArray[2],0,0,0,0);
-	    var startDateMilliseconds= startDateObj.getTime();
-	    var endDateMilliseconds= endDateObj.getTime();
+	 	var result= true;			
+	    	if($("#expiry_phone").val().length > 0 )    	{
+	        	var dateArray= $("#effective_phone").val().split("/");
+	        	var startDateObj= new Date(dateArray[0],(dateArray[1]-1),dateArray[2],0,0,0,0);	     
+	    		var endDateArray= $("#expiry_phone").val().split("/");
+	    		var endDateObj= new Date(endDateArray[0],(endDateArray[1]-1),endDateArray[2],0,0,0,0);
+	    		var startDateMilliseconds= startDateObj.getTime();
+	    		var endDateMilliseconds= endDateObj.getTime();
 					
-	    if (endDateMilliseconds <= startDateMilliseconds) 
-	      {
-	        result= false;
-	      }
+	    		if (endDateMilliseconds <= startDateMilliseconds)   {
+	        		result= false;
+	      		}
 	    
-	      } 
-	     
+	      	} 
 	    return result;
-
 	 },"Invalid Expiry Date. The Phone Number Expiry Date provided must be later than Effective Date.");
 	
 	$( ".bootton" ).button();
@@ -874,11 +778,11 @@ $(function() {
 			},
 		effective_phone: {
 			required: true
-					 	  }
+		}
 	      },
 	      messages: {
 	    	  number: {
-	    		  required: "Phone Number is Required",
+	    		required: "Phone Number is Required",
 	              	minlength: "Invalid Phone Number.  The phone number provided must be 10 characters long when starting with a number 2 through 9. ",
 	              	maxlength: "Invalid Phone Number. The phone number provided must be 10 characters long when starting with a number 2 through 9.",
 	              	digits: "Invalid Phone Number.  The phone number provided must only contain numbers (0 through 9) or +."
@@ -914,71 +818,64 @@ $(function() {
 			<c:set var="disableexpire" value="false"></c:set>
 		</c:if>
 	</c:forEach>
-	<c:if test="${empty sessionScope.studentCombined.studentInfo.preferredPhoneNumber.expiryDate.time && sessionScope.studentCombined.studentInfo.preferredPhoneNumber.refId != rid}">
+	<c:if test="${empty sessionScope.studentCombined.studentInfo.preferredPhoneNumber.expiryDate.time && 									sessionScope.studentCombined.studentInfo.preferredPhoneNumber.refId != rid}">
 		<c:set var="disableexpire" value="false"></c:set>
 	</c:if>
 
 	<div id="topLevel">
-
 		<div class="ui-widget-content ui-corner-top container_no error" id="error_phone" style="display: none;">
 			<h3 class="ui-dialog-titlebar ui-widget-header ui-corner-top">Validation Summary</h3>
+	</div>
+	<br />
 
-		</div>
-		<br />
-
-		<form method="post" id="phoneForm">
-			<input type="hidden" name="scid" value="${scid }" />
-			<c:if test="${not empty phone.id }">
+	<form method="post" id="phoneForm">
+		<input type="hidden" name="scid" value="${scid }" />
+		<c:if test="${not empty phone.id }">
 			<input type="hidden" name="lid" value="${phone.id }" />
-			</c:if>
-			<div class="ui-widget-content ui-corner-top container_no">
-				<c:if test="${not empty rid }">
-					Reference# ${rid }
-					<input type='hidden' name='rid' value="${rid }" />
-
-				</c:if>
-				<input type='hidden' name='sid' value="${sid }" />
-				<div class="form_last_row">
-					<div class="form_field">
-						<label>Phone Number </label> <input type="text" name='number' id="number" value="${phone.number }" />
-						<div class="required">*</div>
-					</div>
-				</div>
-
-				<div class="form_last_row">
-					<div class="form_field">
-						<label>Extension </label> <input type="text" name='ext' id="ext" value="${phone.extension }" />
-					</div>
-				</div>
+		</c:if>
+		<div class="ui-widget-content ui-corner-top container_no">
+		<c:if test="${not empty rid }">
+			Reference# ${rid }
+			<input type='hidden' name='rid' value="${rid }" />
+		</c:if>
+		<input type='hidden' name='sid' value="${sid }" />
+		<div class="form_last_row">
+			<div class="form_field">
+				<label>Phone Number </label> <input type="text" name='number' id="number" value="${phone.number }" />
+				<div class="required">*</div>
+			</div>
+		</div>
+		<div class="form_last_row">
+			<div class="form_field">
+				<label>Extension </label> <input type="text" name='ext' id="ext" value="${phone.extension }" />
+			</div>
+		</div>
 
 ...
 
-				<div class="form_last_row">
-					<div class="form_field">
-						<label>Expire all active phone records </label>
-
-						<c:choose>
-							<c:when test="${disableexpire }">
-								<select  name="expireactive">
-									<option value="N" selected="selected">No</option>
-								</select>
-							</c:when>
-							<c:otherwise>
-								<select name="expireactive">
-									<c:choose>
-										<c:when test="${not empty rid }">
-											<option value="N" selected="selected">No</option>
-											<option value="Y">Yes</option>
-
-										</c:when>
-										<c:otherwise>
-											<option value="N">No</option>
-											<option value="Y" selected="selected">Yes</option>
-										</c:otherwise>
-									</c:choose>
-								</select>
-							</c:otherwise>
-
+		<div class="form_last_row">
+			<div class="form_field">
+				<label>Expire all active phone records </label>
+				<c:choose>
+					<c:when test="${disableexpire }">
+						<select  name="expireactive">
+							<option value="N" selected="selected">No</option>
+						</select>
+					</c:when>
+				<c:otherwise>
+					<select name="expireactive">
+					<c:choose>
+						<c:when test="${not empty rid }">
+						<option value="N" selected="selected">No</option>
+						<option value="Y">Yes</option>
+					</c:when>
+					<c:otherwise>
+						<option value="N">No</option>
+						<option value="Y" selected="selected">Yes</option>
+					</c:otherwise>
+				</c:choose>
+				</select>
+				</c:otherwise>
 						</c:choose>
 					</div>
 				</div>
@@ -986,7 +883,6 @@ $(function() {
 			</div>
 		</form>
 	</div>
-
 	<div id="loading"></div>
 
 </body>
