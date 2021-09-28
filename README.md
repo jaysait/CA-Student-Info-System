@@ -196,8 +196,7 @@ public Map<String,List<SchoolHistory>> getSchoolHistories(String scid) {
 
 ```
 -Data Access Object/Repository Files:  Initially when switching over to Spring, used JdbcTemplate w/ rowmappers, etc...was in the process of updating all to use Hibernate/JPA and other modern Spring techniques
-
--Wished I could have used things liked Lambdas, other  was current Java features. 
+-Wanted to use latest things liked Lambdas, other current Java features. 
 
 ```java
 public List<ReachHeading> getReachBySchool(Integer schoolId) {
