@@ -7,7 +7,7 @@ Last project was to become compliant with Ab Ed Using their Web Services via web
 
 https://extranet.education.alberta.ca/pasidevnet/Docs/
 
-Wanted to finish compliance, move from a system that was becoming a monolithic bloated one, to using a RESTful api for the backend and other modern Java/Spring features, like Java Modules, Spring Boot and so much syntactic sugar making is so much more maintainable/extendible.  Even just on the frontend client side switching from js callback hell to try/catch with await/async or at least returned promised using the .then/.catch which to me is much more readable. Mainly used jquery upfront, tried to update using template engines like Thymeleaf, AngularJS was just becoming more mainstream.
+Wanted to finish PASI compliance (sadly failed), move from a system that was becoming a monolithic bloated one, to using a RESTful api for the backend and other modern Java/Spring features, like Java Modules, Spring Boot and so much syntactic sugar making is so much more maintainable/extendible.  Even just on the frontend client side switching from js callback hell to try/catch with await/async or at least returned promises using the .then/.catch which to me is much more readable. Mainly used jquery upfront, tried to update using template engines like Thymeleaf, AngularJS was just becoming more mainstream.
 
 
 1. [Screenshots](#Screenshots)
