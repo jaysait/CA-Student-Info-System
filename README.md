@@ -339,6 +339,166 @@ public class IPPController {
 -Controller example
 
 
+#### Tests
+```java
+public class GetStudentTest {
+	@Test
+	public void testGetStudentUnknown() throws RemoteException{
+		School school = Data.getSchoolGood();
+		IPASIService201305 pasiProxy = new IPASIService201305Proxy(school.getEndpoint());
+		StudentRequest request = new StudentRequest();
+		CallerInfo callerInfo = Data.getCallerInfoGood();
+		callerInfo.getUser().setOrganizationCode("A.9131");
+		request.setCallerInfo(callerInfo);
+		String[] stateProvinceIds = {"..."};
+		EntityKeyVersionInfo entity = new EntityKeyVersionInfo();
+		entity.setExpectedVersion(0l);
+		entity.setKey("036452407");
+		EntityKeyVersionInfo[] entities = {entity};
+		request.setStateProvinceIds(entities);
+		StudentResponse[] responses =  pasiProxy.getStudent(request, school);
+		assertEquals(1, responses.length);
+		StudentResponse studentResponse = responses[0];
+		assertEquals("Unknown", studentResponse.getAvailabilityStatus());
+		StudentInfo studentInfo = studentResponse.getStudent();
+		CitizenshipStatusInfo[] citizenshipStatusInfo =  studentInfo.getCitizenshipStatuses();
+		assertNull(citizenshipStatusInfo);
+		ExtendedInfoList extendedPersonalInfo =  studentInfo.getExtendedPersonalInfo();
+		StudentIdentificationInfo studentIdentificationInfo = studentInfo.getIdentificationRecord();
+		Address[] otherAddresses =  studentInfo.getOtherAddresses();
+		assertNull(otherAddresses);
+		Name[] otherNames = studentInfo.getOtherNames();
+		assertNull(otherNames);
+		PhoneNumber[] otherPhoneNumbers = studentInfo.getOtherPhoneNumbers();
+		assertNull(otherPhoneNumbers);
+		Address preferredMailingAddress = studentInfo.getPreferredMailingAddress();
+		assertNull(preferredMailingAddress);
+		Name preferredName = studentInfo.getPreferredName();
+		assertNull(preferredName);
+		PhoneNumber preferredPhoneNumber = studentInfo.getPreferredPhoneNumber();
+		assertNull(preferredPhoneNumber);
+		assertNull(studentInfo.getPrimaryStateProvinceId());
+		StudentDisclosureRestrictionInfo[] protectionSummary = studentInfo.getDisclosureRestrictions();
+		assertNull(protectionSummary);
+		String[] secondaryStateProvinceIds = studentInfo.getSecondaryStateProvinceIds();
+		assertNull(secondaryStateProvinceIds);
+		assertNull(studentInfo.getSection23Eligibility()); 
+		assertEquals("999999999", studentInfo.getStateProvinceId());
+		assertFalse(studentInfo.isIsDeactivated());
+		assertFalse(studentInfo.isIsDeceased());
+```
+-used jUnit for testing
+
+```java
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = { "classpath:**/web.xml","/isis-data.xml",
+                                    "/isis-data-jdbc.xml",
+                                    "/isis-service.xml",
+                                    "/isis-servlet.xml"})
+public class PhoneNumberControllerIntegrationTest {
+	 
+	@Autowired
+	    private ApplicationContext applicationContext;
+
+	    private MockHttpServletRequest request;
+	    private MockHttpServletResponse response;
+	    private MockHttpSession session;
+	    private HandlerAdapter handlerAdapter;
+	    
+	    @Autowired
+	    PhoneNumberController phoneController;
+
+	    @Before
+	    public void setUp() throws Exception {
+	        this.request = new MockHttpServletRequest();
+	        this.response = new MockHttpServletResponse();
+	        this.session = new MockHttpSession();
+
+	        this.handlerAdapter = applicationContext.getBean(HandlerAdapter.class);
+	    }
+
+	    ModelAndView handle(HttpServletRequest request, HttpServletResponse response)
+	            throws Exception 
+...
+	@Test
+	    public void testFindNew() throws Exception {
+	    	Integer scid = 61570;
+	    	Integer rid = -1;
+	    	String sid = "107309015";
+	    	Integer pref = 0;
+	    	Integer lid = -1;
+	        request.setRequestURI("/phone/find/"+rid+"/"+scid+"/"+sid+"/"+pref+"/"+lid);
+	        request.setMethod("GET");
+	        final ModelAndView mav = handle(request, response);
+	        assertViewName(mav, "pasi/managephone");
+	        assertModelAttributeAvailable(mav, "today");
+	        List<String> listables = new ArrayList<String>();
+		      listables.add("Yes");
+		      listables.add("No");
+		      listables.add("Unknown");
+	        assertModelAttributeValue(mav, "listables", listables);
+	        PhoneNumber phone = null;
+	        assertNull(mav.getModel().get("phone"));
+	        assertModelAttributeValue(mav, "sid", sid);
+	        assertModelAttributeValue(mav, "scid", scid);
+	        assertModelAttributeValue(mav, "preferred", pref);
+	    }
+		   
+```
+-mocks to test controllers
+
+```java
+public class AssignmentJdbcDaoTest extends DatabaseTestCase {
+    
+    private final static Log  log = LogFactory.getLog(AssignmentJdbcDaoTest.class);
+
+    private ApplicationContext ctx;
+    private String[] configLocations = { "isis-data-tests.xml",
+            "isis-data-jdbc.xml","isis-service.xml" };
+    AssignmentDao assignmentDao;
+    protected void setUp() throws Exception {
+        ctx = new ClassPathXmlApplicationContext(configLocations);
+        assignmentDao= (AssignmentDao)ctx.getBean("assignmentDao");
+        super.setUp();
+       }
+
+    protected IDatabaseConnection getConnection() throws Exception {
+        DataSource ds = (DataSource) ctx.getBean("dataSource");
+        return new DatabaseConnection(ds.getConnection());
+    }
+
+    protected IDataSet getDataSet() throws Exception {
+        return new XmlDataSet(new FileInputStream("data/tests/c/_master.xml"));
+    }
+
+    /* What DbUnit does with the existing data and with data in the XML file */
+    protected DatabaseOperation getSetUpOperation() throws Exception {
+        return DatabaseOperation.REFRESH;
+	}
+	public void testSaveAssignment()throws Exception{
+    	Assignment assignment = new Assignment();
+    	assignment.setCourseID(Data.COURSE_ID);
+    	assignment.setCategoryID("...");
+    	assignment.setAssignmentID(99999);
+    	assignment.setGivenDate(DateUtil.getDate("10/10/2018"));
+    	assignment.setDueDate(DateUtil.getDate("10/11/2018"));
+    	assignment.setShortDesc("testdesc");
+    	assignment.setFullDesc("testfulldesc");
+    	assignment.setAssignValue(10);
+    	assignment.setWeight(0);
+    	assignment.setTermCode(Data.TERM);
+    	assignment.setSchoolId(Data.SCHOOL_ID);
+    	assignmentDao.saveAssignment(assignment);
+    	
+    	Assignment assignment2 = assignmentDao.getAssignment("99999", Data.TERM, Data.COURSE_ID,Data.SCHOOL_ID);
+    	assertNotNull(assignment2);
+    	assignmentDao.deleteAssignment(assignment);
+    	assertNull(assignmentDao.getAssignment("99999", Data.TERM, Data.COURSE_ID,Data.SCHOOL_ID));
+    	
+    }
+```
+--used dbUnit for data layer test, probably better to have used Spring tests 
+
 #### frontend interfaces
 ```html
 <%@ page language="java" contentType="text/html; charset=UTF-8"
