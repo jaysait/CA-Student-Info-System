@@ -3,11 +3,11 @@ Developed a student information system for the unique processes of a school prim
 
 Highlights of technologies used: Used MSSQL Server 2015 (database), pojo Java/Hibernate (model), Spring Framework (data access/services/web controllers/security/etc), Aspects (audit-logging), jsp/jquery/jstl/bootstrap (frontend), developed using Eclipse/STS, deployed on Tomcat server, utilizing Maven, Git repository...following the MVC pattern. Tried to follow the Don't Repeat Yourself principle and liked Keep It Simple S and self documenting code
 
-Last project was to become compliant with Ab Ed Using their Web Services via web services definition language files.  Used Axis to generate boilerplate code based on those wsdl files and utilized long polling to keep data syncd in near real time.
+Last project was to become compliant with Ab Ed PASI system using their Web Services via web services definition language files.  Used Axis to generate boilerplate code based on those wsdl files and utilized long polling to keep data syncd in near real time.
 
 https://extranet.education.alberta.ca/pasidevnet/Docs/
 
-Wanted to finish PASI compliance (sadly failed to finish for various reasons), move from a system that was becoming a monolithic bloated one, to using a RESTful api for the backend and other modern Java/Spring features, like Java Modules, Spring Boot and so much syntactic sugar making is so much more maintainable/extendible.  Even just on the frontend client side switching from js callback hell to try/catch with await/async or at least returned promises using the .then/.catch which to me is much more readable. Mainly used jquery upfront, tried to update using template engines like Thymeleaf, AngularJS was just becoming more mainstream. 
+Wanted to finish PASI compliance (sadly failed to finish for various reasons), move from a system that was becoming a monolithic bloated one, to using a RESTful api for the backend and other modern Java/Spring features, like Java Modules, Spring Boot and so much syntactic sugar making it much more maintainable/extendible.  Even just on the frontend client side switching from js callback hell to try/catch with await/async or at least returned promises using the .then/.catch would have been a huge improvement. Mainly used jquery upfront, tried to update using template engines like Thymeleaf and would have loved to incoporated a js framework.
 
 
 1. [Screenshots](#Screenshots)
