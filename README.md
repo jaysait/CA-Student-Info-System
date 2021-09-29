@@ -734,6 +734,7 @@ $(function() {
 </body>
 </html>
 ```
+-used jquery to makes calls to Spring controllers to dynamically get data
 
 ```html
 <%@ page language="java" 
