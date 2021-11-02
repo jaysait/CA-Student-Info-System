@@ -26,7 +26,7 @@ Wanted to finish PASI compliance (sadly failed to finish for various reasons), m
 - many reports, either in pdf via iText or spreadsheet via Apache Poi, etc
 
 ### Homepage 2
-![homepage2](https://github.com/jaysait/CA-Student-Info-System/blob/master/homepage-2.png)
+![homepage2](https://raw.githubusercontent.com/jaysait/CA-Student-Info-System/main/homepage-2.png)
 - quick lookups 
 - parent teacher scheduling functionality
 - online options allowing parents to pick options for the next year
