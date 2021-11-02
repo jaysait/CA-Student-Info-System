@@ -19,7 +19,7 @@ Wanted to finish PASI compliance (sadly failed to finish for various reasons), m
 ## Screenshots
 
 ### Homepage
-![homepage how is this not working](https://github.com/jaysait/CA-Student-Info-System/blob/master/homepage.png)
+![homepage](https://github.com/jaysait/CA-Student-Info-System/blob/master/homepage.png?raw=true)
 - customizable calendar feed
 - classes for attendance, grades, rubrics, etc
 - notifications about issues in the system ie. duplicate enrollments in subjects
