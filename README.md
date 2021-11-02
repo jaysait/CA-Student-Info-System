@@ -34,81 +34,81 @@ Wanted to finish PASI compliance (sadly failed to finish for various reasons), m
 - manage various aspects of the system
 
 ### Edit Profile
-![Edit Profile](https://github.com/jaysait/CA-Student-Info-System/blob/master/edit-profile.png)
+![Edit Profile](https://raw.githubusercontent.com/jaysait/CA-Student-Info-System/main/edit-profile.png)
 - used bootstrap for interface
 
 ### Yearend Recognition Awards
-![Yearend Recognition Awards](https://github.com/jaysait/CA-Student-Info-System/blob/master/yearend-recognition-awards.png)
+![Yearend Recognition Awards](https://raw.githubusercontent.com/jaysait/CA-Student-Info-System/main/yearend-recognition-awards.png)
 - used bootstrap for interface
 
 ### Yearend Recognition Awards - Customize Awards
-![Yearend Recognition Awards - Customize Awards](https://github.com/jaysait/CA-Student-Info-System/blob/master/yearend-recognition-awards-custom.png)
+![Yearend Recognition Awards - Customize Awards](https://raw.githubusercontent.com/jaysait/CA-Student-Info-System/main/yearend-recognition-awards-custom.png)
 
 ### Yearend Recognition Awards - Student Awards
-![Yearend Recognition Awards - Student Awards](https://github.com/jaysait/CA-Student-Info-System/blob/master/yearend-recognition-awards-per-student.png)
+![Yearend Recognition Awards - Student Awards](https://raw.githubusercontent.com/jaysait/CA-Student-Info-System/main/yearend-recognition-awards-per-student.png)
 
 ### Yearend Recognition Awards - Export
-![homepage](https://github.com/jaysait/CA-Student-Info-System/blob/master/yearend-recognition-awards-export.png)
+![homepage](https://raw.githubusercontent.com/jaysait/CA-Student-Info-System/main/yearend-recognition-awards-export.png)
 - allowed graphic person to export awards and mail merge into the actual award documents
 
 ### Individual Program Plan
-![Yearend Recognition Awards - Export](https://github.com/jaysait/CA-Student-Info-System/blob/master/Individual-program-plan-main.png)
+![Yearend Recognition Awards - Export](https://raw.githubusercontent.com/jaysait/CA-Student-Info-System/main/Individual-program-plan-main.png)
 - used jquery ui for frontend
 
 
 ### Individual Program Plan - Goals
-![Individual Program Plan - Goals](https://github.com/jaysait/CA-Student-Info-System/blob/master/Individual-program-plan-goals.png)
+![Individual Program Plan - Goals](https://raw.githubusercontent.com/jaysait/CA-Student-Info-System/main/Individual-program-plan-goals.png)
 
 ### Individual Program Plan - Edit Goals
-![Individual Program Plan - Edit Goals](https://github.com/jaysait/CA-Student-Info-System/blob/master/Individual-program-plan-edit-goals.png)
+![Individual Program Plan - Edit Goals](https://raw.githubusercontent.com/jaysait/CA-Student-Info-System/main/Individual-program-plan-edit-goals.png)
 
 ### PT Interview Scheduler
-![PT Interview Scheduler](https://github.com/jaysait/CA-Student-Info-System/blob/master/ptinterview.png)
+![PT Interview Scheduler](https://raw.githubusercontent.com/jaysait/CA-Student-Info-System/main/ptinterview.png)
 -Teachers can dynamically create PT Interviews for any of their classes, allowing to set up a template email, pick available times, select who gets invited and share with other teachers and view/get notified of any selections
 
 
 ### Subscriptions to Reports
-![Individual Program Plan - Edit Goals](https://github.com/jaysait/CA-Student-Info-System/blob/master/subscriptions.png)
+![Individual Program Plan - Edit Goals](https://raw.githubusercontent.com/jaysait/CA-Student-Info-System/main/subscriptions.png)
 - allowed teachers/directors to set criteria to receive automatic weekly reports (ie grades below a certain %)
 
 ### Create Class
-![Create Class](https://github.com/jaysait/CA-Student-Info-System/blob/master/create-class.png)
+![Create Class](https://raw.githubusercontent.com/jaysait/CA-Student-Info-System/main/create-class.png)
 
 ### Attendance
-![Attendance](https://github.com/jaysait/CA-Student-Info-System/blob/master/attendance.png)
+![Attendance](https://raw.githubusercontent.com/jaysait/CA-Student-Info-System/main/attendance.png)
 
 ### Gradebook
-![Gradebook](https://github.com/jaysait/CA-Student-Info-System/blob/master/gradebook.png)
+![Gradebook](https://raw.githubusercontent.com/jaysait/CA-Student-Info-System/main/gradebook.png)
 - autosave
 - right click meta data
 
 ### Export Data
-![Export Data](https://github.com/jaysait/CA-Student-Info-System/blob/master/export-data.png)
+![Export Data](https://raw.githubusercontent.com/jaysait/CA-Student-Info-System/main/export-data.png)
 - could autosuggest and export (spreadsheet) much of the data in the system to be used externally
 
 ### Mail Merge
-![mail-merge-1](https://github.com/jaysait/CA-Student-Info-System/blob/master/mail-merge-1.png)
+![mail-merge-1](https://raw.githubusercontent.com/jaysait/CA-Student-Info-System/main/mail-merge-1.png)
 - users could create a .docx document and mark it with special delimited fields ${} and upload it into the system and it would find them and allow them to match them with data in the system ie. student name, gender, etc
 -  basically a mail merge functionality built in using system data and without having to know how to mail merge in MS
 
-![mail-merge-2](https://github.com/jaysait/CA-Student-Info-System/blob/master/mail-merge-2.png)
+![mail-merge-2](https://raw.githubusercontent.com/jaysait/CA-Student-Info-System/main/mail-merge-2.png)
 
-![mail-merge-3](https://github.com/jaysait/CA-Student-Info-System/blob/master/mail-merge-3.png)
+![mail-merge-3](https://raw.githubusercontent.com/jaysait/CA-Student-Info-System/main/mail-merge-3.png)
 - then they could apply that for any grade
 
-![mail-merge-4](https://github.com/jaysait/CA-Student-Info-System/blob/master/mail-merge-4.png)
+![mail-merge-4](https://raw.githubusercontent.com/jaysait/CA-Student-Info-System/main/mail-merge-4.png)
 - and the system would generate individual documents for each of the kids with the appropriate data filled in
 
 ### Labels
-![Labels](https://github.com/jaysait/CA-Student-Info-System/blob/master/address-labels.png)
+![Labels](https://raw.githubusercontent.com/jaysait/CA-Student-Info-System/main/address-labels.png)
 - allowed flexible labels for various tasks ie address
 
 ### Various Stats
-![Various Stats](https://github.com/jaysait/CA-Student-Info-System/blob/master/login-stats.png)
+![Various Stats](https://raw.githubusercontent.com/jaysait/CA-Student-Info-System/main/login-stats.png)
 - had many different metrics/stats to try and help analyse issues
 
 ### Permissions
-![Permissions](https://github.com/jaysait/CA-Student-Info-System/blob/master/permissions.png)
+![Permissions](https://raw.githubusercontent.com/jaysait/CA-Student-Info-System/main/permissions.png)
 - finegrain permissions allowing permitted users to control what groups or individuals saw in the system
 
 
